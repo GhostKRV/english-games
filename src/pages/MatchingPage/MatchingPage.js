@@ -1,8 +1,6 @@
-import React, { } from "react";
+import React from 'react';
 
 function MatchingPage() {
-  return(
-    <h1>MatchingPage</h1>
-  )
+  return <h1>MatchingPage</h1>;
 }
 export default MatchingPage;
