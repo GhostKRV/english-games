@@ -21,7 +21,7 @@ function HomePage() {
           <GridListTile key={index}>
             <a href={game.route}>
               <img
-                src={require('../../images/' + game.image_URL)}
+                src={game.image_URL}
                 alt={game.title}
               />
             </a>
