@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import MatchingCard from '../../pages/MatchingPage';
 import Fortune from '../../pages/Fortune';
 import HttpBin from '../../pages/HttpBin';
+import HomePage from '../../pages/HomePage';
 
 export default () => (
   <Router>
@@ -12,6 +13,7 @@ export default () => (
       <Route path="/matching" component={MatchingCard} />
       <Route path="/httpbin" component={HttpBin} />
       <Route path="/fortune" component={Fortune} />
+      <Route exact path="/" component={HomePage} />
     </Switch>
   </Router>
 );
