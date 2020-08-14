@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import ModalWindow from '../ModalWindow';
 import fortune_data from '../../data/fortune.json';
+import Button from '@material-ui/core/Button';
 
 import './index.css';
 
@@ -12,13 +13,16 @@ function Wheel() {
     questionText: '',
   });
 
+  function timer(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   function question(deg) {
     setModalProps({ isActive: false, questionText: '' });
     setRotateD(deg);
     const questionNumber = Math.floor(
       fortune_data.length - (deg % 360) / (360 / fortune_data.length),
     );
-    // console.log(Math.ceil(25 - (deg % 360) / (360 / 25)));
     console.log(fortune_data[questionNumber].question);
     setModalProps({
       isActive: true,
@@ -26,23 +30,23 @@ function Wheel() {
     });
   }
 
-  function spin(callback) {
-    const rounds = Math.ceil(Math.random() * 6000 + 7000);
+  async function spin() {
+    const rounds = Math.ceil(Math.random() * 2000 + 3000);
 
-    for (let i = rotateDegree; i <= rotateDegree + rounds; i++) {
-      setTimeout(() => {
-        if (i === rotateDegree + rounds) {
-          callback((rotateDegree + rounds) % 360);
-        } else {
-          setRotateD(i % 360);
-        }
-      }, 100);
+    for (let i = rotateDegree; i <= rotateDegree + rounds; ) {
+      if (i === rotateDegree + rounds) {
+        question((rotateDegree + rounds) % 360);
+      } else {
+        setRotateD(i % 360);
+      }
+      i++;
+      await timer(3);
     }
   }
 
   const circleParameters = {
-    width: 700,
-    height: 700,
+    width: 600,
+    height: 600,
     pixelRatio: window.devicePixelRatio,
   };
 
@@ -53,7 +57,7 @@ function Wheel() {
 
     context.save();
     context.scale(circleParameters.pixelRatio, circleParameters.pixelRatio);
-    context.fillStyle = 'hsl(0, 0%, 96%)';
+    context.fillStyle = 'hsl(0, 0%, 100%)';
     context.fillRect(0, 0, circleParameters.width, circleParameters.height);
 
     context.beginPath();
@@ -61,7 +65,7 @@ function Wheel() {
       circleParameters.width - 10,
       circleParameters.height / 2 - 20,
     );
-    context.lineTo(circleParameters.width - 80, circleParameters.height / 2);
+    context.lineTo(circleParameters.width - 70, circleParameters.height / 2);
     context.lineTo(
       circleParameters.width - 10,
       circleParameters.height / 2 + 20,
@@ -77,12 +81,12 @@ function Wheel() {
     fortune_data.map((data, index) => {
       context.strokeStyle = data.color;
 
-      context.lineWidth = '40';
+      context.lineWidth = '150';
       context.beginPath();
       context.arc(
         0,
         0,
-        circleParameters.width / 2.9,
+        circleParameters.width / 4,
         (Math.PI * 2 * index) / fortune_data.length,
         (Math.PI * 2 * ++index) / fortune_data.length,
       );
@@ -100,9 +104,24 @@ function Wheel() {
 
   return (
     <div className="Wheel">
-      <ModalWindow modalParams={modalProps} />
-      <canvas ref={canvas} width={dw} height={dh} style={style} />
-      <button onClick={() => spin(question)}>Rotate</button>
+      <ModalWindow modalParams={modalProps} das="aaa" />
+      <canvas
+        className="canvasWheel"
+        ref={canvas}
+        width={dw}
+        height={dh}
+        style={style}
+      />
+      <div className="doSpin">
+        <Button
+          size="large"
+          onClick={spin}
+          variant="contained"
+          color="secondary"
+        >
+          DO SPIN
+        </Button>
+      </div>
     </div>
   );
 }

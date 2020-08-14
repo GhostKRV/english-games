@@ -9,3 +9,9 @@ html,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.gameFortune {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+}

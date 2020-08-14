@@ -6,10 +6,8 @@ import './index.css';
 
 function Fortune() {
   return (
-    <div>
-      <h1>ALL GOOD</h1>
-      <Wheel className="circle">
-      </Wheel>
+    <div className="gameFortune">
+      <Wheel className="circle"></Wheel>
     </div>
   );
 }
