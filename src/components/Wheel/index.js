@@ -82,7 +82,6 @@ function Wheel() {
     height: circleParameters.height,
   };
 
-  console.log(1);
   return (
     <div className="Wheel">
       <ModalWindow
