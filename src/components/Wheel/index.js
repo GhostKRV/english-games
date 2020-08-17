@@ -18,12 +18,10 @@ function Wheel() {
   }
 
   function question(deg) {
-    setModalProps({ isActive: false, questionText: '' });
     setRotateD(deg);
     const questionNumber = Math.floor(
       fortune_data.length - (deg % 360) / (360 / fortune_data.length),
     );
-    console.log(fortune_data[questionNumber].question);
     setModalProps({
       isActive: true,
       questionText: fortune_data[questionNumber].question,
@@ -33,13 +31,13 @@ function Wheel() {
   async function spin() {
     const rounds = Math.ceil(Math.random() * 2000 + 3000);
 
-    for (let i = rotateDegree; i <= rotateDegree + rounds; ) {
+    for (let i = rotateDegree; i <= rotateDegree + rounds; i++) {
       if (i === rotateDegree + rounds) {
         question((rotateDegree + rounds) % 360);
       } else {
         setRotateD(i % 360);
       }
-      i++;
+
       await timer(3);
     }
   }
@@ -78,7 +76,7 @@ function Wheel() {
     context.translate(circleParameters.width / 2, circleParameters.height / 2);
     context.rotate((Math.PI / 180) * rotateDegree);
 
-    fortune_data.map((data, index) => {
+    fortune_data.forEach((data, index) => {
       context.strokeStyle = data.color;
 
       context.lineWidth = '150';
@@ -93,7 +91,12 @@ function Wheel() {
       context.stroke();
     });
     context.restore();
-  });
+  }, [
+    circleParameters.height,
+    circleParameters.pixelRatio,
+    circleParameters.width,
+    rotateDegree,
+  ]);
 
   const dw = Math.floor(circleParameters.pixelRatio * circleParameters.width);
   const dh = Math.floor(circleParameters.pixelRatio * circleParameters.height);
@@ -104,7 +107,10 @@ function Wheel() {
 
   return (
     <div className="Wheel">
-      <ModalWindow modalParams={modalProps} das="aaa" />
+      <ModalWindow
+        isActive={modalProps.isActive}
+        questionText={modalProps.questionText}
+      />
       <canvas
         className="canvasWheel"
         ref={canvas}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -54,18 +54,13 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function ModalWindow(modalParams) {
-  const [open, setOpen] = React.useState(false);
+export default function ModalWindow({isActive, questionText}) {
+  const [open, setOpen] = React.useState(isActive);
 
-  useEffect(() => {
-    if (modalParams.modalParams.isActive) {
-      handleClickOpen();
-    }
-  }, [modalParams.modalParams]);
+  React.useEffect(() => {
+    setOpen(isActive);
+  }, [isActive]);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -74,7 +69,9 @@ export default function ModalWindow(modalParams) {
     <div>
       <Dialog
         fullWidth={true}
-        onClose={handleClose}
+        onClose={() => {
+          setOpen(false);
+        }}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
@@ -83,7 +80,7 @@ export default function ModalWindow(modalParams) {
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            {modalParams.modalParams.questionText}
+            {questionText}
           </Typography>
         </DialogContent>
         <DialogActions>
