@@ -20,10 +20,7 @@ function HomePage() {
         {config.map((game, index) => (
           <GridListTile key={index}>
             <a href={game.route}>
-              <img
-                src={game.image_URL}
-                alt={game.title}
-              />
+              <img src={game.image_URL} alt={game.title} />
             </a>
             <GridListTileBar
               title={game.title}

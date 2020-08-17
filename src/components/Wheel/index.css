@@ -1,0 +1,9 @@
+.doSpin {
+  float: right;
+  display: flex;
+  margin-top: 229px;
+}
+
+.canvasWheel {
+  transition: 2s ease-in-out;
+}
