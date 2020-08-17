@@ -54,37 +54,23 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function ModalWindow({isActive, questionText}) {
-  const [open, setOpen] = React.useState(isActive);
-
-  React.useEffect(() => {
-    setOpen(isActive);
-  }, [isActive]);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function ModalWindow({ isActive, questionText, onClose }) {
   return (
     <div>
       <Dialog
         fullWidth={true}
-        onClose={() => {
-          setOpen(false);
-        }}
+        onClose={onClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={isActive}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle id="customized-dialog-title" onClose={onClose}>
           Question
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            {questionText}
-          </Typography>
+          <Typography gutterBottom>{questionText}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={onClose} color="primary">
             OK
           </Button>
         </DialogActions>
