@@ -26,7 +26,7 @@ function Quiz() {
       <Typography variant="h3">Quiz List</Typography>
       {quizData.map((quiz, index) => (
         <Button variant="outlined" size="large" href={`../quiz/${index}`}>
-            {quiz.title}
+          {quiz.title}
         </Button>
       ))}
     </div>

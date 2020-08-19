@@ -8,7 +8,6 @@ import HttpBin from '../../pages/HttpBin';
 import HomePage from '../../pages/HomePage';
 import Quiz from '../../pages/Quiz';
 
-
 import NavBar from '../../components/NavBar';
 
 export default () => (
