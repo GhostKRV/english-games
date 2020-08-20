@@ -41,6 +41,21 @@ export default function Question({ testNumber = 0 }) {
     ),
   );
 
+  function checkResult() {
+    setTimeout(() => {
+      setQuizNumber(quizNumber + 1);
+      setActiveAnswer(
+        Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
+          false,
+        ),
+      );
+      return console.log(
+        activeAnswer.indexOf(true) ===
+          quizData[testNumber].questions[quizNumber].correct,
+      );
+    }, 3000);
+  }
+
   return (
     <div className={classes.root}>
       <Paper elevation={2} className={classes.paper}>
@@ -92,16 +107,17 @@ export default function Question({ testNumber = 0 }) {
             variant="contained"
             color="primary"
             onClick={() => {
-              setQuizNumber(quizNumber + 1);
-              console.log(
-                activeAnswer.indexOf(true) ===
-                  quizData[testNumber].questions[quizNumber].correct,
-              );
               setActiveAnswer(
-                Array(
-                  quizData[testNumber].questions[quizNumber].answers.length,
-                ).fill(false),
+                activeAnswer.map((elem, ind) => {
+                  if (
+                    quizData[testNumber].questions[quizNumber].correct === ind
+                  ) {
+                    return true;
+                  }
+                }),
               );
+
+              checkResult();
             }}
           >
             Check
