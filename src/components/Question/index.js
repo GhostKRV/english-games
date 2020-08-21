@@ -34,27 +34,57 @@ const useStyles = makeStyles((theme) => ({
 export default function Question({ testNumber = 0 }) {
   const classes = useStyles();
 
+  const [correctAnswers, addCorrectAnswers] = useState(0);
   const [enabled, setEnabled] = useState(true);
-
   const [quizNumber, setQuizNumber] = useState(0);
+
   const [activeAnswer, setActiveAnswer] = useState(
     Array(quizData[testNumber].questions[quizNumber].answers.length).fill(0),
   );
-  console.log(activeAnswer);
+
   function checkResult() {
+    setActiveAnswer(
+      activeAnswer.map((elem, ind) => {
+        if (
+          elem === 1 &&
+          quizData[testNumber].questions[quizNumber].correct !== ind
+        ) {
+          return 2;
+        } else if (quizData[testNumber].questions[quizNumber].correct === ind) {
+          return 1;
+        } else {
+          return elem;
+        }
+      }),
+    );
+
+    if (
+      activeAnswer.indexOf(1) ===
+      quizData[testNumber].questions[quizNumber].correct
+    ) {
+      addCorrectAnswers(correctAnswers + 1);
+    }
+
     setTimeout(() => {
-      setQuizNumber(quizNumber + 1);
       setActiveAnswer(
         Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
           0,
         ),
       );
       setEnabled(true);
-      return console.log(
-        activeAnswer.indexOf(1) ===
-          quizData[testNumber].questions[quizNumber].correct,
-      );
-    }, 3000);
+
+      if (quizData[testNumber].questions.length !== quizNumber + 1) {
+        setQuizNumber(quizNumber + 1);
+      } else {
+        console.log(correctAnswers);
+      }
+    }, 300);
+    if (
+      activeAnswer.indexOf(1) ===
+      quizData[testNumber].questions[quizNumber].correct
+    ) {
+      addCorrectAnswers(correctAnswers + 1);
+    }
   }
 
   return (
@@ -112,23 +142,6 @@ export default function Question({ testNumber = 0 }) {
             color="primary"
             onClick={() => {
               setEnabled(false);
-              setActiveAnswer(
-                activeAnswer.map((elem, ind) => {
-                  if (
-                    elem === 1 &&
-                    quizData[testNumber].questions[quizNumber].correct !== ind
-                  ) {
-                    return 2;
-                  } else if (
-                    quizData[testNumber].questions[quizNumber].correct === ind
-                  ) {
-                    return 1;
-                  } else {
-                    return elem;
-                  }
-                }),
-              );
-
               checkResult();
             }}
           >
