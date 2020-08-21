@@ -34,23 +34,24 @@ const useStyles = makeStyles((theme) => ({
 export default function Question({ testNumber = 0 }) {
   const classes = useStyles();
 
+  const [enabled, setEnabled] = useState(true);
+
   const [quizNumber, setQuizNumber] = useState(0);
   const [activeAnswer, setActiveAnswer] = useState(
-    Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
-      false,
-    ),
+    Array(quizData[testNumber].questions[quizNumber].answers.length).fill(0),
   );
-
+  console.log(activeAnswer);
   function checkResult() {
     setTimeout(() => {
       setQuizNumber(quizNumber + 1);
       setActiveAnswer(
         Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
-          false,
+          0,
         ),
       );
+      setEnabled(true);
       return console.log(
-        activeAnswer.indexOf(true) ===
+        activeAnswer.indexOf(1) ===
           quizData[testNumber].questions[quizNumber].correct,
       );
     }, 3000);
@@ -75,20 +76,23 @@ export default function Question({ testNumber = 0 }) {
               <Grid item key={index} xs={12} sm={6}>
                 <Button
                   className={classnames(classes.answer, {
-                    'MuiButton-outlinedPrimary': activeAnswer[index],
+                    'MuiButton-outlinedPrimary': activeAnswer[index] === 1,
+                    'MuiButton-outlinedSecondary': activeAnswer[index] === 2,
                   })}
                   variant="outlined"
                   size="large"
                   onClick={() => {
-                    setActiveAnswer(
-                      activeAnswer.map((elem, ind) => {
-                        if (index === ind) {
-                          return true;
-                        } else {
-                          return false;
-                        }
-                      }),
-                    );
+                    if (enabled) {
+                      setActiveAnswer(
+                        activeAnswer.map((elem, ind) => {
+                          if (index === ind) {
+                            return 1;
+                          } else {
+                            return 0;
+                          }
+                        }),
+                      );
+                    }
                   }}
                 >
                   {ques}
@@ -107,12 +111,20 @@ export default function Question({ testNumber = 0 }) {
             variant="contained"
             color="primary"
             onClick={() => {
+              setEnabled(false);
               setActiveAnswer(
                 activeAnswer.map((elem, ind) => {
                   if (
+                    elem === 1 &&
+                    quizData[testNumber].questions[quizNumber].correct !== ind
+                  ) {
+                    return 2;
+                  } else if (
                     quizData[testNumber].questions[quizNumber].correct === ind
                   ) {
-                    return true;
+                    return 1;
+                  } else {
+                    return elem;
                   }
                 }),
               );
