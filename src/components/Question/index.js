@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Question({ testNumber = 0 }) {
+export default function Question(props) {
+  const testNumber = (props.match.params.testNumber);
   const classes = useStyles();
 
   const [correctAnswers, addCorrectAnswers] = useState(0);

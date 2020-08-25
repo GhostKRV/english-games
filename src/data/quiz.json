@@ -68,7 +68,7 @@
     "title": "Test #2",
     "questions": [
       {
-        "title": "Question #1 in test #2",
+        "title": "Question #1",
         "description": "Question test 2 description. Correct C.",
         "answers": ["Variant A", "Variant B", "Variant C", "Variant D"],
         "correct": 3

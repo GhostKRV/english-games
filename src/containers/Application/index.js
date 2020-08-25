@@ -16,7 +16,7 @@ export default () => (
   <Router>
     <NavBar />
     <Switch>
-      <Route path="/quiz/0" component={Question} />
+      <Route path="/quiz/:testNumber" component={Question} />
       <Route path="/matching" component={MatchingCard} />
       <Route path="/httpbin" component={HttpBin} />
       <Route path="/fortune" component={Fortune} />

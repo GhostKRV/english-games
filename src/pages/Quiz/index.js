@@ -7,6 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
+import { BrowserRouter as Router, NavLink } from 'react-router-dom';
+
 import quizData from '../../data/quiz.json';
 
 import './index.css';
@@ -19,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
   questionButton: {
     width: '100%',
     justifyContent: 'left',
+    padding: '0',
   },
+
   paper: {
     marginBottom: '10px',
     padding: '10px',
@@ -28,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Quiz() {
   const classes = useStyles();
-
   return (
     <div className={classes.root + ' quizGame'}>
       <Paper elevation={2} className={classes.paper}>
@@ -36,6 +39,8 @@ function Quiz() {
           Quiz List
           <Divider />
         </Typography>
+        <div></div>
+
         <Grid container spacing={1}>
           {quizData.map((quiz, index) => (
             <Grid key={index} item xs={12}>
@@ -43,10 +48,10 @@ function Quiz() {
                 className={classes.questionButton}
                 variant="outlined"
                 size="large"
-                href={`../quiz/${index}`}
-                onClick={() => {}}
               >
-                {quiz.title}
+                <NavLink to={`../quiz/${index}`} className="testNumberLink">
+                  {quiz.title}
+                </NavLink>{' '}
               </Button>
             </Grid>
           ))}
