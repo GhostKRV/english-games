@@ -3,4 +3,12 @@ import ReactDOM from 'react-dom';
 
 import Application from './containers/Application/index.js';
 
-ReactDOM.render(<Application />, document.getElementById('root'));
+import { Provider } from 'react-redux';
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Application />
+  </Provider>,
+  document.getElementById('root'),
+);

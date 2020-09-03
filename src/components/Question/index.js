@@ -35,98 +35,98 @@ export default function Question(props) {
   const testNumber = (props.match.params.testNumber);
   const classes = useStyles();
 
-  const [correctAnswers, addCorrectAnswers] = useState(0);
-  const [enabled, setEnabled] = useState(true);
-  const [quizNumber, setQuizNumber] = useState(0);
+  // const [correctAnswers, addCorrectAnswers] = useState(0);
+  // const [enabled, setEnabled] = useState(true);
+  // const [quizNumber, setQuizNumber] = useState(0);
 
-  const [activeAnswer, setActiveAnswer] = useState(
-    Array(quizData[testNumber].questions[quizNumber].answers.length).fill(0),
-  );
+  // const [activeAnswer, setActiveAnswer] = useState(
+  //   Array(quizData[testNumber].questions[quizNumber].answers.length).fill(0),
+  // );
 
-  function checkResult() {
-    setActiveAnswer(
-      activeAnswer.map((elem, ind) => {
-        if (
-          elem === 1 &&
-          quizData[testNumber].questions[quizNumber].correct !== ind
-        ) {
-          return 2;
-        } else if (quizData[testNumber].questions[quizNumber].correct === ind) {
-          return 1;
-        } else {
-          return elem;
-        }
-      }),
-    );
+  // function checkResult() {
+  //   setActiveAnswer(
+  //     activeAnswer.map((elem, ind) => {
+  //       if (
+  //         elem === 1 &&
+  //         quizData[testNumber].questions[quizNumber].correct !== ind
+  //       ) {
+  //         return 2;
+  //       } else if (quizData[testNumber].questions[quizNumber].correct === ind) {
+  //         return 1;
+  //       } else {
+  //         return elem;
+  //       }
+  //     }),
+  //   );
 
-    if (
-      activeAnswer.indexOf(1) ===
-      quizData[testNumber].questions[quizNumber].correct
-    ) {
-      addCorrectAnswers(correctAnswers + 1);
-    }
+    // if (
+    //   activeAnswer.indexOf(1) ===
+    //   quizData[testNumber].questions[quizNumber].correct
+    // ) {
+    //   addCorrectAnswers(correctAnswers + 1);
+    // }
 
-    setTimeout(() => {
-      setActiveAnswer(
-        Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
-          0,
-        ),
-      );
-      setEnabled(true);
+    // setTimeout(() => {
+    //   setActiveAnswer(
+    //     Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
+    //       0,
+    //     ),
+    //   );
+    //   setEnabled(true);
 
-      if (quizData[testNumber].questions.length !== quizNumber + 1) {
-        setQuizNumber(quizNumber + 1);
-      } else {
-        console.log(correctAnswers);
-      }
-    }, 300);
-    if (
-      activeAnswer.indexOf(1) ===
-      quizData[testNumber].questions[quizNumber].correct
-    ) {
-      addCorrectAnswers(correctAnswers + 1);
-    }
-  }
+    //   if (quizData[testNumber].questions.length !== quizNumber + 1) {
+    //     setQuizNumber(quizNumber + 1);
+    //   } else {
+    //     console.log(correctAnswers);
+    //   }
+    // }, 300);
+  //   if (
+  //     activeAnswer.indexOf(1) ===
+  //     quizData[testNumber].questions[quizNumber].correct
+  //   ) {
+  //     addCorrectAnswers(correctAnswers + 1);
+  //   }
+  // }
 
   return (
     <div className={classes.root}>
       <Paper elevation={2} className={classes.paper}>
         <Typography variant="h5" gutterBottom>
-          {quizData[testNumber].title +
+          {/* {quizData[testNumber].title +
             '/' +
-            quizData[testNumber].questions[quizNumber].title}
+            quizData[testNumber].questions[quizNumber].title} */}
           <Divider />
         </Typography>
         <Typography variant="h6" gutterBottom>
-          {quizData[testNumber].questions[quizNumber].description}
+          {/* {quizData[testNumber].questions[quizNumber].description} */}
         </Typography>
 
         <Grid container spacing={1}>
-          {quizData[testNumber].questions[quizNumber].answers.map(
-            (ques, index) => (
+          {/* {quizData[testNumber].questions[quizNumber].answers.map(
+            (ques, index) => ( */}
               <Grid item key={index} xs={12} sm={6}>
-                <Button
-                  className={classnames(classes.answer, {
-                    'MuiButton-outlinedPrimary': activeAnswer[index] === 1,
-                    'MuiButton-outlinedSecondary': activeAnswer[index] === 2,
-                  })}
-                  variant="outlined"
-                  size="large"
-                  onClick={() => {
-                    if (enabled) {
-                      setActiveAnswer(
-                        activeAnswer.map((elem, ind) => {
-                          if (index === ind) {
-                            return 1;
-                          } else {
-                            return 0;
-                          }
-                        }),
-                      );
-                    }
-                  }}
-                >
-                  {ques}
+                <Button>
+                {/* //   className={classnames(classes.answer, {
+                //     'MuiButton-outlinedPrimary': activeAnswer[index] === 1,
+                //     'MuiButton-outlinedSecondary': activeAnswer[index] === 2,
+                //   })}
+                //   variant="outlined"
+                //   size="large"
+                //   onClick={() => {
+                //     if (enabled) {
+                //       setActiveAnswer(
+                //         activeAnswer.map((elem, ind) => {
+                //           if (index === ind) {
+                //             return 1;
+                //           } else {
+                //             return 0;
+                //           }
+                //         }),
+                //       );
+                //     }
+                //   }}
+                // >
+                //   {ques} */}
                 </Button>
               </Grid>
             ),
@@ -138,14 +138,14 @@ export default function Question(props) {
             Skip
           </Button>
           <Divider orientation="vertical" flexItem />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setEnabled(false);
-              checkResult();
-            }}
-          >
+          <Button>
+            {/* // variant="contained"
+            // color="primary"
+            // onClick={() => {
+            //   setEnabled(false);
+            //   checkResult();
+            // }}
+          > */}
             Check
           </Button>
         </Box>

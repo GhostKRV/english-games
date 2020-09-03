@@ -9,6 +9,8 @@ import Divider from '@material-ui/core/Divider';
 
 import { BrowserRouter as Router, NavLink } from 'react-router-dom';
 
+import classnames from 'classnames';
+
 import quizData from '../../data/quiz.json';
 
 import './index.css';
@@ -23,23 +25,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'left',
     padding: '0',
   },
-
   paper: {
     marginBottom: '10px',
     padding: '10px',
   },
 }));
 
-function Quiz() {
+const Quiz = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root + ' quizGame'}>
+    <div className={classnames(classes.root, 'quizGames')}>
       <Paper elevation={2} className={classes.paper}>
         <Typography variant="h5" gutterBottom>
           Quiz List
           <Divider />
         </Typography>
-        <div></div>
 
         <Grid container spacing={1}>
           {quizData.map((quiz, index) => (
@@ -59,6 +59,6 @@ function Quiz() {
       </Paper>
     </div>
   );
-}
+};
 
 export default Quiz;
