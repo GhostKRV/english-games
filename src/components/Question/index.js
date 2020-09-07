@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -8,9 +8,14 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
-import quizData from '../../data/quiz.json';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import classnames from 'classnames';
+import {
+  fetchQuestionAnswers,
+  fetchSelectedQuestions,
+  fetchTestDetails,
+} from '../../actions/quiz.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,125 +36,140 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Question(props) {
-  const testNumber = (props.match.params.testNumber);
+const mapStateToProps = (props) => ({
+  testTitle: props.quiz.selectedTest.title,
+  selectedQuestion: props.quiz.selectedQuestion,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchTestDetails: fetchTestDetails,
+      fetchSelectedQuestions: fetchSelectedQuestions,
+      fetchQuestionAnswers: fetchQuestionAnswers,
+    },
+    dispatch,
+  );
+
+const Question = (props) => {
+  const {
+    match: { params: { testNumber = null } = {} } = {},
+    selectedQuestion = null,
+    testTitle = null,
+  } = props;
+
   const classes = useStyles();
 
-  // const [correctAnswers, addCorrectAnswers] = useState(0);
-  // const [enabled, setEnabled] = useState(true);
-  // const [quizNumber, setQuizNumber] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState({
+    selectedAnswer: null,
+    correctAnswer: null,
+  });
+  const [answers, setAnswers] = useState([]);
 
-  // const [activeAnswer, setActiveAnswer] = useState(
-  //   Array(quizData[testNumber].questions[quizNumber].answers.length).fill(0),
-  // );
+  useEffect(() => {
+    props.fetchTestDetails(testNumber);
+    props.fetchSelectedQuestions(answers.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testNumber, answers]);
 
-  // function checkResult() {
-  //   setActiveAnswer(
-  //     activeAnswer.map((elem, ind) => {
-  //       if (
-  //         elem === 1 &&
-  //         quizData[testNumber].questions[quizNumber].correct !== ind
-  //       ) {
-  //         return 2;
-  //       } else if (quizData[testNumber].questions[quizNumber].correct === ind) {
-  //         return 1;
-  //       } else {
-  //         return elem;
-  //       }
-  //     }),
-  //   );
+  console.log(selectedAnswer);
 
-    // if (
-    //   activeAnswer.indexOf(1) ===
-    //   quizData[testNumber].questions[quizNumber].correct
-    // ) {
-    //   addCorrectAnswers(correctAnswers + 1);
-    // }
+  if (selectedQuestion === null) {
+    if (answers.length) {
+      return (
+        <h1>
+          {answers.filter((answer) => answer).length}/{answers.length}
+        </h1>
+      );
+    }
 
-    // setTimeout(() => {
-    //   setActiveAnswer(
-    //     Array(quizData[testNumber].questions[quizNumber].answers.length).fill(
-    //       0,
-    //     ),
-    //   );
-    //   setEnabled(true);
-
-    //   if (quizData[testNumber].questions.length !== quizNumber + 1) {
-    //     setQuizNumber(quizNumber + 1);
-    //   } else {
-    //     console.log(correctAnswers);
-    //   }
-    // }, 300);
-  //   if (
-  //     activeAnswer.indexOf(1) ===
-  //     quizData[testNumber].questions[quizNumber].correct
-  //   ) {
-  //     addCorrectAnswers(correctAnswers + 1);
-  //   }
-  // }
+    return null;
+  }
 
   return (
     <div className={classes.root}>
       <Paper elevation={2} className={classes.paper}>
         <Typography variant="h5" gutterBottom>
-          {/* {quizData[testNumber].title +
-            '/' +
-            quizData[testNumber].questions[quizNumber].title} */}
+          {testTitle}
           <Divider />
         </Typography>
         <Typography variant="h6" gutterBottom>
-          {/* {quizData[testNumber].questions[quizNumber].description} */}
+          {`${selectedQuestion.title}/${selectedQuestion.description}`}
         </Typography>
 
         <Grid container spacing={1}>
-          {/* {quizData[testNumber].questions[quizNumber].answers.map(
-            (ques, index) => ( */}
-              <Grid item key={index} xs={12} sm={6}>
-                <Button>
-                {/* //   className={classnames(classes.answer, {
-                //     'MuiButton-outlinedPrimary': activeAnswer[index] === 1,
-                //     'MuiButton-outlinedSecondary': activeAnswer[index] === 2,
-                //   })}
-                //   variant="outlined"
-                //   size="large"
-                //   onClick={() => {
-                //     if (enabled) {
-                //       setActiveAnswer(
-                //         activeAnswer.map((elem, ind) => {
-                //           if (index === ind) {
-                //             return 1;
-                //           } else {
-                //             return 0;
-                //           }
-                //         }),
-                //       );
-                //     }
-                //   }}
-                // >
-                //   {ques} */}
-                </Button>
-              </Grid>
-            ),
-          )}
+          {selectedQuestion.answers.map((question, index) => (
+            <Grid key={index} item xs={12} sm={6}>
+              <Button
+                className={classes.answer}
+                color={
+                  index === selectedAnswer.selectedAnswer
+                    ? 'primary'
+                    : index === selectedAnswer.correctAnswer
+                    ? 'secondary'
+                    : 'default'
+                }
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  if (selectedAnswer.correctAnswer === null) {
+                    setSelectedAnswer({
+                      ...selectedAnswer,
+                      selectedAnswer: index,
+                    });
+                  }
+                }}
+              >
+                {question}
+              </Button>
+            </Grid>
+          ))}
         </Grid>
 
         <Box className={classes.quizNavigation} spacing={1}>
-          <Button variant="contained" color="secondary">
+          <Button
+            size="large"
+            color="secondary"
+            onClick={() => {
+              setAnswers([...answers, false]);
+              setSelectedAnswer(null);
+            }}
+          >
             Skip
           </Button>
           <Divider orientation="vertical" flexItem />
-          <Button>
-            {/* // variant="contained"
-            // color="primary"
-            // onClick={() => {
-            //   setEnabled(false);
-            //   checkResult();
-            // }}
-          > */}
+          <Button
+            color="primary"
+            size="large"
+            disabled={selectedAnswer.selectedAnswer === null}
+            onClick={() => {
+              setSelectedAnswer({
+                ...selectedAnswer,
+                correctAnswer: selectedQuestion.correct,
+              });
+              setTimeout(() => {
+                if (selectedAnswer === selectedQuestion.correct) {
+                  setAnswers([...answers, true]);
+                  setSelectedAnswer({
+                    selectedAnswer: null,
+                    correctAnswer: null,
+                  });
+                } else {
+                  setAnswers([...answers, false]);
+                  setSelectedAnswer({
+                    selectedAnswer: null,
+                    correctAnswer: null,
+                  });
+                }
+              }, 2000);
+            }}
+          >
             Check
           </Button>
         </Box>
       </Paper>
     </div>
   );
-}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

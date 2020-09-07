@@ -69,7 +69,7 @@
     "questions": [
       {
         "title": "Question #1",
-        "description": "Question test 2 description. Correct C.",
+        "description": "Question test 2 description. Correct D.",
         "answers": ["Variant A", "Variant B", "Variant C", "Variant D"],
         "correct": 3
       },
