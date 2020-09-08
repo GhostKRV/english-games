@@ -16,10 +16,18 @@ export const fetchSelectedQuestions = (id) => (dispatch) => {
   dispatch(getSelectedQuestions(id));
 };
 
-const getQuestionAnswers = (payload) => ({
-  type: constants.GET_QUESTION_ANSWERS,
+const setSelectedAnswer = (payload) => ({
+  type: constants.SET_SELECTED_ANSWER,
   payload: payload,
 });
-export const fetchQuestionAnswers = (id) => (dispatch) => {
-  dispatch(getQuestionAnswers(id));
+export const fetchSelectedAnswer = (id) => (dispatch) => {
+  dispatch(setSelectedAnswer(id));
+};
+
+const setTestAnswers = (payload) => ({
+  type: constants.SET_TEST_ANSWERS,
+  payload: payload,
+});
+export const fetchTestAnswers = (id) => (dispatch) => {
+  dispatch(setTestAnswers(id));
 };

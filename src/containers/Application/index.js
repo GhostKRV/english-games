@@ -7,8 +7,7 @@ import Fortune from '../../pages/Fortune';
 import HttpBin from '../../pages/HttpBin';
 import HomePage from '../../pages/HomePage';
 import Quiz from '../../pages/Quiz';
-import Question from '../../components/Question';
-
+import Question from '../../pages/Quiz/QuestionWrapper';
 
 import NavBar from '../../components/NavBar';
 

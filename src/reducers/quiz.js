@@ -5,7 +5,8 @@ const initialState = {
   tests: quizData,
   selectedTest: {},
   selectedQuestion: null,
-  answers: [],
+  selectedAnswer: { selectedAnswer: null, correctAnswer: null },
+  testAnswers: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,10 +20,16 @@ const reducer = (state = initialState, action) => {
         selectedQuestion: state.selectedTest.questions[action.payload],
       };
 
-    case constants.GET_QUESTION_ANSWERS:
+    case constants.SET_SELECTED_ANSWER:
       return {
         ...state,
-        answers: state.selectedQuestion.answers,
+        selectedAnswer: action.payload,
+      };
+
+    case constants.SET_TEST_ANSWERS:
+      return {
+        ...state,
+        testAnswers: action.payload,
       };
 
     default:

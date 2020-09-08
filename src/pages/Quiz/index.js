@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography, Paper, Grid, Divider } from '@material-ui/core/';
 
+// eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, NavLink } from 'react-router-dom';
 
 import classnames from 'classnames';
