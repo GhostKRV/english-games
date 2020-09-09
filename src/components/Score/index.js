@@ -52,7 +52,7 @@ const Score = ({ testTitle, score, numberOfTests }) => {
           />
         </div>
         <Box className={classes.quizNavigation} spacing={1}>
-          <Button size="large" color="primary" variant="contained">
+          <Button color="primary" variant="contained">
             <NavLink to={`../quiz/`} className="testNumberLink">
               Go to quiz
             </NavLink>

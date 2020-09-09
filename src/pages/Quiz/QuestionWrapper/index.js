@@ -12,8 +12,6 @@ import Score from '../../../components/Score';
 import {
   fetchSelectedQuestions,
   fetchTestDetails,
-  fetchSelectedAnswer,
-  fetchTestAnswers,
 } from '../../../actions/quiz.js';
 
 import SkipModalWindow from '../../../components/SkipModalWindow';
@@ -35,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const mapStateToProps = (props) => ({
   testTitle: props.quiz.selectedTest.title,
   selectedQuestion: props.quiz.selectedQuestion,
-  selectedAnswer: props.quiz.selectedAnswer,
-  testAnswers: props.quiz.testAnswers,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -44,8 +40,6 @@ const mapDispatchToProps = (dispatch) =>
     {
       fetchTestDetails: fetchTestDetails,
       fetchSelectedQuestions: fetchSelectedQuestions,
-      fetchSelectedAnswer: fetchSelectedAnswer,
-      fetchTestAnswers: fetchTestAnswers,
     },
     dispatch,
   );
@@ -55,11 +49,14 @@ const QuestionWrapper = (props) => {
     match: { params: { testNumber = null } = {} } = {},
     selectedQuestion = null,
     testTitle = null,
-    selectedAnswer = {},
-    testAnswers = [],
   } = props;
 
   const [active, setActive] = useState(false);
+  const [testAnswers, setTestAnswers] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState({
+    userAnswer: null,
+    correctAnswer: null,
+  });
 
   const classes = useStyles();
 
@@ -96,6 +93,7 @@ const QuestionWrapper = (props) => {
         <Question
           selectedAnswer={selectedAnswer}
           selectedQuestion={selectedQuestion}
+          setSelectedAnswer={setSelectedAnswer}
         />
         <Box className={classes.quizNavigation} spacing={1}>
           <SkipModalWindow
@@ -103,16 +101,23 @@ const QuestionWrapper = (props) => {
             onClose={() => {
               setActive(false);
             }}
+            fetchTestAnswers={() => {
+              setTestAnswers([...testAnswers, false]);
+            }}
           />
           <Button
             size="large"
             color="secondary"
-            disabled={selectedAnswer.correctAnswer !== null}
+            disabled={
+              selectedAnswer.userAnswer !== null &&
+              selectedAnswer.correctAnswer !== null
+            }
             onClick={() => {
               setActive(true);
-              props.fetchSelectedAnswer({
+              setSelectedAnswer({
                 ...selectedAnswer,
-                selectedAnswer: null,
+                userAnswer: null,
+                correctAnswer: null,
               });
             }}
           >
@@ -123,26 +128,27 @@ const QuestionWrapper = (props) => {
             color="primary"
             size="large"
             disabled={
-              selectedAnswer.selectedAnswer === null ||
-              (selectedAnswer.selectedAnswer !== null &&
-                selectedAnswer.correctAnswer !== null)
+              selectedAnswer.correctAnswer !== null ||
+              selectedAnswer.userAnswer === null
             }
             onClick={() => {
-              props.fetchSelectedAnswer({
+              setSelectedAnswer({
                 ...selectedAnswer,
-                correctAnswer: selectedQuestion.correct,
+                correctAnswer: selectedAnswer.userAnswer,
+                userAnswer: selectedQuestion.correct,
               });
               setTimeout(() => {
                 if (
-                  selectedAnswer.selectedAnswer === selectedQuestion.correct
+                  selectedAnswer.userAnswer === selectedQuestion.correct
                 ) {
-                  props.fetchTestAnswers([...testAnswers, true]);
+                  setTestAnswers([...testAnswers, true]);
                 } else {
-                  props.fetchTestAnswers([...testAnswers, false]);
+                  setTestAnswers([...testAnswers, false]);
                 }
-                props.fetchSelectedAnswer({
+                setSelectedAnswer({
                   ...selectedAnswer,
-                  selectedAnswer: null,
+                  userAnswer: null,
+                  correctAnswer: null,
                 });
               }, 1500);
             }}

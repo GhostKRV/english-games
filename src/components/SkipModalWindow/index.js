@@ -9,25 +9,8 @@ import {
   DialogTitle,
 } from '@material-ui/core/';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { fetchTestAnswers } from '../../actions/quiz.js';
-
-const mapStateToProps = (props) => ({
-  testAnswers: props.quiz.testAnswers,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchTestAnswers: fetchTestAnswers,
-    },
-    dispatch,
-  );
-
 const SkipModalWindow = (props) => {
-  const { active = false, onClose, testAnswers = [] } = props;
+  const { active = false, onClose, fetchTestAnswers } = props;
 
   return (
     <Dialog
@@ -55,7 +38,7 @@ const SkipModalWindow = (props) => {
         <Button
           onClick={() => {
             onClose();
-            props.fetchTestAnswers([...testAnswers, false]);
+            fetchTestAnswers();
           }}
           color="primary"
           autoFocus
@@ -67,4 +50,4 @@ const SkipModalWindow = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkipModalWindow);
+export default SkipModalWindow;

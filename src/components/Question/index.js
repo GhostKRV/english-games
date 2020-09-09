@@ -3,10 +3,6 @@ import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchSelectedAnswer } from '../../actions/quiz.js';
-
 const useStyles = makeStyles((theme) => ({
   answer: {
     width: '100%',
@@ -14,20 +10,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (props) => ({
-  selectedAnswer: props.quiz.selectedAnswer,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchSelectedAnswer: fetchSelectedAnswer,
-    },
-    dispatch,
-  );
-
 const Question = (props) => {
-  const { selectedAnswer = {}, selectedQuestion = {} } = props;
+  const {
+    selectedAnswer = {},
+    selectedQuestion = {},
+    setSelectedAnswer,
+  } = props;
 
   const classes = useStyles();
 
@@ -38,7 +26,7 @@ const Question = (props) => {
           <Button
             className={classes.answer}
             color={
-              index === selectedAnswer.selectedAnswer
+              index === selectedAnswer.userAnswer
                 ? 'primary'
                 : index === selectedAnswer.correctAnswer
                 ? 'secondary'
@@ -48,7 +36,10 @@ const Question = (props) => {
             size="large"
             onClick={() => {
               if (selectedAnswer.correctAnswer === null) {
-                props.fetchSelectedAnswer({ ...selectedAnswer, selectedAnswer: index });
+                setSelectedAnswer({
+                  ...selectedAnswer,
+                  userAnswer: index,
+                });
               }
             }}
           >
@@ -60,4 +51,4 @@ const Question = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Question);
+export default Question;

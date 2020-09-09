@@ -20,18 +20,6 @@ const reducer = (state = initialState, action) => {
         selectedQuestion: state.selectedTest.questions[action.payload],
       };
 
-    case constants.SET_SELECTED_ANSWER:
-      return {
-        ...state,
-        selectedAnswer: action.payload,
-      };
-
-    case constants.SET_TEST_ANSWERS:
-      return {
-        ...state,
-        testAnswers: action.payload,
-      };
-
     default:
       return state;
   }
