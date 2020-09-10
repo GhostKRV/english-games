@@ -1,26 +1,57 @@
 import React from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
+
+import {
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  ListSubheader,
+} from '@material-ui/core/';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import config from '../../data/home_config.json';
 
-import './index.css';
+import '../../styles/index.css';
+
+const useStyles = makeStyles((theme) => ({
+  home_content: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    width: '95vw',
+    maxWidth: '1500px',
+    margin: '0 auto',
+  },
+  gamesGrid: {
+    width: '100%',
+  },
+  menuGamesBackground: {
+    width: '100%',
+  },
+  headerTitle: {
+    fontSize: '36px',
+  },
+}));
 
 function HomePage() {
+  const classes = useStyles();
   return (
-    <div className="home_content">
-      <GridList cellHeight={180} className="gamesGrid">
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+    <div className={classes.home_content}>
+      <GridList cellHeight={180} className={classes.gamesGrid}>
+        <GridListTile cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">
-            <h1 className="headerTitle">ENGLISH GAMES</h1>
+            <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
           </ListSubheader>
         </GridListTile>
         {config.map((game, index) => (
           <GridListTile key={index}>
             <a href={game.route}>
-              <img src={game.image_URL} alt={game.title} />
+              <img
+                className={classes.menuGamesBackground}
+                src={game.image_URL}
+                alt={game.title}
+              />
             </a>
             <GridListTileBar
               title={game.title}

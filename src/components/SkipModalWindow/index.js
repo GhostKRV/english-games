@@ -19,10 +19,10 @@ const SkipModalWindow = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{'Skip question'}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Skip question</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          This question will be skipped. We will mark this question is
+          This question will be skipped. We will mark this question as
           incorrect. Do you agree?
         </DialogContentText>
       </DialogContent>

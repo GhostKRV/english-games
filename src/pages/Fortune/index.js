@@ -2,7 +2,7 @@ import React from 'react';
 
 import Wheel from '../../components/Wheel';
 
-import './index.css';
+import '../../styles/index.css'
 
 function Fortune() {
   return (

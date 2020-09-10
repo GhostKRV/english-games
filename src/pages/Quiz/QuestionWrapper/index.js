@@ -12,7 +12,7 @@ import Score from '../../../components/Score';
 import {
   fetchSelectedQuestions,
   fetchTestDetails,
-} from '../../../actions/quiz.js';
+} from '../../../actions/quiz';
 
 import SkipModalWindow from '../../../components/SkipModalWindow';
 
@@ -71,8 +71,8 @@ const QuestionWrapper = (props) => {
       return (
         <Score
           testTitle={testTitle}
-          score={testAnswers.filter((answer) => answer).length}
-          numberOfTests={testAnswers.length}
+          score={testAnswers.filter(Boolean).length}
+          numberOfQuestions={testAnswers.length}
         />
       );
     }
@@ -138,9 +138,7 @@ const QuestionWrapper = (props) => {
                 userAnswer: selectedQuestion.correct,
               });
               setTimeout(() => {
-                if (
-                  selectedAnswer.userAnswer === selectedQuestion.correct
-                ) {
+                if (selectedAnswer.userAnswer === selectedQuestion.correct) {
                   setTestAnswers([...testAnswers, true]);
                 } else {
                   setTestAnswers([...testAnswers, false]);

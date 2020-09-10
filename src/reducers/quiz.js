@@ -5,8 +5,6 @@ const initialState = {
   tests: quizData,
   selectedTest: {},
   selectedQuestion: null,
-  selectedAnswer: { selectedAnswer: null, correctAnswer: null },
-  testAnswers: [],
 };
 
 const reducer = (state = initialState, action) => {

@@ -4,14 +4,14 @@ import {
   Typography,
   Paper,
   Divider,
-  Button,
   Box,
   CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-// eslint-disable-next-line no-unused-vars
-import { BrowserRouter as Router, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import LinkButton from '../LinkButton';
 
 const useStyles = makeStyles((theme) => ({
   circularProgress: {
@@ -33,30 +33,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Score = ({ testTitle, score, numberOfTests }) => {
+const Score = ({ testTitle, score, numberOfQuestions }) => {
   const classes = useStyles();
+  const ref = React.createRef();
 
   return (
     <div className={classes.root}>
       <Paper elevation={2} className={classes.paper}>
         <Typography variant="h5" gutterBottom>
-          {testTitle} <Divider />
+          {testTitle}
+          <Divider />
         </Typography>
         <Typography variant="h4" align="center">
-          {'Your result'}
+          Your result
         </Typography>
         <div className={classes.circularProgress}>
           <CircularProgressWithLabel
             score={score}
-            numberOfTests={numberOfTests}
+            numberOfQuestions={numberOfQuestions}
           />
         </div>
         <Box className={classes.quizNavigation} spacing={1}>
-          <Button color="primary" variant="contained">
-            <NavLink to={`../quiz/`} className="testNumberLink">
-              Go to quiz
-            </NavLink>
-          </Button>
+          <Link
+            to="../quiz/"
+            component={LinkButton}
+            innerRef={ref}
+            color="primary"
+            variant="contained"
+          >
+            Go to quiz
+          </Link>
         </Box>
       </Paper>
     </div>
@@ -65,14 +71,14 @@ const Score = ({ testTitle, score, numberOfTests }) => {
 
 export default Score;
 
-function CircularProgressWithLabel({ score, numberOfTests }) {
+function CircularProgressWithLabel({ score, numberOfQuestions }) {
   return (
     <Box position="relative" display="inline-flex">
       <CircularProgress
         size="140px"
         thickness={5}
         variant="static"
-        value={(score / numberOfTests) * 100}
+        value={(score / numberOfQuestions) * 100}
       />
       <Box
         top={0}
@@ -86,11 +92,11 @@ function CircularProgressWithLabel({ score, numberOfTests }) {
         flexDirection="column"
       >
         <Typography variant="h5" component="div" color="primary">
-          {`${Math.round((score / numberOfTests) * 100)}%`}
+          {`${Math.round((score / numberOfQuestions) * 100)}%`}
           <Divider />
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
-          {score}/{numberOfTests}
+          {score}/{numberOfQuestions}
         </Typography>
       </Box>
     </Box>

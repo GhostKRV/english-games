@@ -10,6 +10,14 @@ html,
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* FORTUNE */
+.gameFortune {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+}
+
+/* MATCHING_PAGE */
 .game {
   display: flex;
   flex: 1;
@@ -21,14 +29,4 @@ html,
   width: 50%;
   display: flex;
   flex-wrap: wrap;
-}
-
-.testNumberLink{
-  text-align: left;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  height: 100%;
-  width: 100%;
-  padding: 7px 21px;
 }
