@@ -51,7 +51,7 @@ const QuestionWrapper = (props) => {
     match: { params: { testNumber = null } = {} } = {},
     selectedQuestion = null,
     testTitle = null,
-    questions = 0,
+    questions = [],
   } = props;
 
   const [active, setActive] = useState(false);
