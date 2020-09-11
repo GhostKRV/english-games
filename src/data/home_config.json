@@ -21,5 +21,11 @@
     "image_URL": "https://miro.medium.com/max/3840/1*F81FMBmkY70bWw2Kjn3bvg.png",
     "description": "httpbin.org",
     "route": "/httpbin"
+  },
+  {
+    "title": "Quiz",
+    "image_URL": "https://lh3.googleusercontent.com/-p0Op6WyC_bN8NgSlSwmXKwkfVrn05lTDu39qp4NZVj9sf7IEHVQffvL4uAI9sS_aWO5=h800",
+    "description": "Take the test and get a grade",
+    "route": "/quiz"
   }
 ]
