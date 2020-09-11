@@ -5,8 +5,6 @@ import fortune_data from '../../data/fortune.json';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-import './index.css';
-
 function Wheel() {
   const [rotateDegree, setRotateD] = useState(0.0);
   const [modalProps, setModalProps] = useState({
