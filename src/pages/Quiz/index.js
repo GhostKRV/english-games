@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
 import quizData from '../../data/quiz.json';
-import LinkButton from '../../components/LinkButton'
+import LinkButton from '../../components/LinkButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {

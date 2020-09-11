@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Typography, Paper, Divider, Button, Box } from '@material-ui/core';
+import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (props) => ({
+  questions: props.quiz.selectedTest.questions,
   testTitle: props.quiz.selectedTest.title,
   selectedQuestion: props.quiz.selectedQuestion,
 });
@@ -49,6 +51,7 @@ const QuestionWrapper = (props) => {
     match: { params: { testNumber = null } = {} } = {},
     selectedQuestion = null,
     testTitle = null,
+    questions = 0,
   } = props;
 
   const [active, setActive] = useState(false);
@@ -90,6 +93,13 @@ const QuestionWrapper = (props) => {
         <Typography variant="h6" gutterBottom>
           {`${selectedQuestion.title}/${selectedQuestion.description}`}
         </Typography>
+        <Stepper activeStep={testAnswers.length} alternativeLabel>
+          {questions.map((question, index) => (
+            <Step key={index} completed={testAnswers[index]}>
+              <StepLabel disabled={true} />
+            </Step>
+          ))}
+        </Stepper>
         <Question
           selectedAnswer={selectedAnswer}
           selectedQuestion={selectedQuestion}
