@@ -11,8 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import config from '../../data/home_config.json';
 
-import '../../styles/index.css';
-
 const useStyles = makeStyles((theme) => ({
   home_content: {
     display: 'flex',

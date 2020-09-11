@@ -18,9 +18,7 @@ const LinkButton = React.forwardRef((props, ref) => {
       variant={variant}
       color={color}
       size={size}
-      onClick={() => {
-        window.location.href = href;
-      }}
+      href={href}
     >
       {props.children}
     </Button>

@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card';
 import cards from '../../data/matching.json';
 
-import '../../styles/index.css'
-
 const leftCards = randElements(
   cards.map(({ right }, index) => ({ id: index, card: right })),
 );
