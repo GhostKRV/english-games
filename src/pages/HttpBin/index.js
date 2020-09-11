@@ -86,6 +86,7 @@ const HttpBin = () => {
             label="URL query parameters "
             helperText="Query parameters. For example: /get, /post, /path, /delete More details on https://httpbin.org/"
             value={queryParameters}
+            rowsMax={1}
             onChange={(event) => {
               setQueryParameters(event.target.value);
             }}
@@ -100,12 +101,13 @@ const HttpBin = () => {
               color="primary"
               className={classes.sendButton}
               onClick={() => {
-                setResponseIsLoad(false);
-                if (queryParameters.length !== 0)
+                if (queryParameters.length !== 0 && responseIsLoad) {
+                  setResponseIsLoad(false);
                   createRequest().then((data) => {
                     setResponseIsLoad(true);
                     setResponse(data);
                   });
+                }
               }}
             >
               {responseIsLoad ? (
@@ -142,12 +144,3 @@ const HttpBin = () => {
 };
 
 export default HttpBin;
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//     '& > * + *': {
-//       marginLeft: theme.spacing(2),
-//     },
-//   },
-// }));

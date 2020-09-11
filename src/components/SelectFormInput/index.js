@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const SelectFormInput = (props) => {
   const classes = useStyles();
   const {
-    value = null, //method type
+    value = null,
     onChange,
     label = null,
     helperText = null,
@@ -57,10 +57,10 @@ const SelectFormInput = (props) => {
     <Paper className={classes.paper}>
       <TextField
         select
-        label={label} //method
+        label={label}
         value={value}
-        onChange={onChange} //handleCurrencyChange
-        helperText={helperText} //Please select request method
+        onChange={onChange}
+        helperText={helperText}
         className={classes.parametersField}
       >
         {options.map((option) => (
