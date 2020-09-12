@@ -15,6 +15,8 @@ import axios from 'axios';
 import FormInput from '../../components/FormInput';
 import SelectFormInput from '../../components/SelectFormInput';
 
+import exampleJson from '../../data/httpbin_example.json';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: '1360px',
@@ -29,36 +31,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// ----------------------- EXAMPLES
-const exampleJson = `{"name":"Molecule Man","age":29,"secretIdentity":"Dan Jukes","powers":["Radiation resistance","Turning tiny","Radiation blast"]}`;
-// --------------------------END EXAMPLES
-
 const HttpBin = () => {
   const classes = useStyles();
   const [methodType, setCurrency] = useState('GET');
-  const [queryParameters, setQueryParameters] = useState('get');
-  const [bodyParameters, setBodyParameters] = useState(exampleJson);
+  const [queryParameters, setQueryParameters] = useState(
+    JSON.stringify(exampleJson.requestConfig),
+  );
+  const [bodyParameters, setBodyParameters] = useState(
+    JSON.stringify(exampleJson.data),
+  );
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
-  const createRequest = () => {
-    const axiosConfig = {
-      method: methodType,
-      baseURL: `https://httpbin.org/`,
-      data: JSON.parse(bodyParameters),
-      url: queryParameters,
-    };
-
+  const createRequest = (queryParameters = {}) => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        axios(axiosConfig)
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch((error) => {
-            resolve(error);
-          });
-      }, 3000);
+      if (queryParameters.length === 0) {
+        queryParameters = `{}`;
+      }
+      try {
+        const queryObject = JSON.parse(queryParameters);
+
+        const axiosConfig = {
+          method: methodType,
+          baseURL: `https://httpbin.org/`,
+          data: bodyParameters,
+          url: methodType.toLowerCase(),
+          ...queryObject,
+        };
+
+        setTimeout(() => {
+          axios(axiosConfig)
+            .then(({ data }) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }, 1000);
+      } catch (error) {
+        reject(error);
+      }
     });
   };
 
@@ -76,21 +88,20 @@ const HttpBin = () => {
             label="Method"
             onChange={(event) => {
               setCurrency(event.target.value);
-              setQueryParameters(event.target.value.toLowerCase());
             }}
             helperText="Please select request method"
           />
         </Grid>
         <Grid item xs={8}>
           <FormInput
-            label="URL query parameters "
-            helperText="Query parameters. For example: /get, /post, /path, /delete More details on https://httpbin.org/"
+            label="Query parameters "
+            helperText="Query parameters. Use JSON format to set query paremeters."
+            multiline={false}
             value={queryParameters}
             rowsMax={1}
             onChange={(event) => {
               setQueryParameters(event.target.value);
             }}
-            error={queryParameters.length === 0}
           />
         </Grid>
         <Grid item xs={2}>
@@ -101,12 +112,19 @@ const HttpBin = () => {
               color="primary"
               className={classes.sendButton}
               onClick={() => {
-                if (queryParameters.length !== 0 && responseIsLoad) {
+                if (responseIsLoad) {
                   setResponseIsLoad(false);
-                  createRequest().then((data) => {
-                    setResponseIsLoad(true);
-                    setResponse(data);
-                  });
+                  createRequest(queryParameters).then(
+                    (data) => {
+                      setResponseIsLoad(true);
+                      setResponse(data);
+                    },
+                    (error) => {
+                      setResponseIsLoad(true);
+                      setResponse(error.message);
+                      console.log(error);
+                    },
+                  );
                 }
               }}
             >

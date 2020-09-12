@@ -1,0 +1,13 @@
+{
+  "requestConfig": {
+    "headers": { "Content-Type": "text/javascript;charset=UTF-8" },
+    "params": { "ID": "12345" },
+    "auth": { "username": "johndoe", "password": "00000000" }
+  },
+  "data": {
+    "name": "Molecule Man",
+    "age": 29,
+    "secretIdentity": "Dan Jukes",
+    "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+  }
+}
