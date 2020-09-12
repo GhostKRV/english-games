@@ -1,9 +1,5 @@
 {
-  "requestConfig": {
-    "headers": { "Content-Type": "text/javascript;charset=UTF-8" },
-    "params": { "ID": "12345" },
-    "auth": { "username": "johndoe", "password": "00000000" }
-  },
+  "requestConfig": "?ID=000032&ZIPcode=50003",
   "data": {
     "name": "Molecule Man",
     "age": 29,

@@ -35,7 +35,7 @@ const HttpBin = () => {
   const classes = useStyles();
   const [methodType, setCurrency] = useState('GET');
   const [queryParameters, setQueryParameters] = useState(
-    JSON.stringify(exampleJson.requestConfig),
+    exampleJson.requestConfig,
   );
   const [bodyParameters, setBodyParameters] = useState(
     JSON.stringify(exampleJson.data),
@@ -43,20 +43,24 @@ const HttpBin = () => {
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
-  const createRequest = (queryParameters = {}) => {
+  const createRequest = (queryParameters) => {
     return new Promise((resolve, reject) => {
-      if (queryParameters.length === 0) {
-        queryParameters = `{}`;
-      }
       try {
-        const queryObject = JSON.parse(queryParameters);
+        const baseURL = 'https://httpbin.org/';
+        const queryObject = new URLSearchParams(queryParameters);
+        const pathObject = new URL(baseURL + queryParameters);
+
+        const url =
+          pathObject.pathname.length - 1 === 0
+            ? methodType.toLowerCase()
+            : pathObject.pathname;
 
         const axiosConfig = {
           method: methodType,
-          baseURL: `https://httpbin.org/`,
+          baseURL: baseURL,
           data: bodyParameters,
-          url: methodType.toLowerCase(),
-          ...queryObject,
+          url: url,
+          params: queryObject,
         };
 
         setTimeout(() => {
@@ -95,7 +99,7 @@ const HttpBin = () => {
         <Grid item xs={8}>
           <FormInput
             label="Query parameters "
-            helperText="Query parameters. Use JSON format to set query paremeters."
+            helperText="Query parameters."
             multiline={false}
             value={queryParameters}
             rowsMax={1}
@@ -122,7 +126,6 @@ const HttpBin = () => {
                     (error) => {
                       setResponseIsLoad(true);
                       setResponse(error.message);
-                      console.log(error);
                     },
                   );
                 }
