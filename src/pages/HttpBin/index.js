@@ -34,33 +34,30 @@ const useStyles = makeStyles((theme) => ({
 const HttpBin = () => {
   const classes = useStyles();
   const [methodType, setCurrency] = useState('GET');
+  const [urlFormValue, setURLlFormValue] = useState('/get');
   const [queryParameters, setQueryParameters] = useState(
-    exampleJson.requestConfig,
+    JSON.stringify(exampleJson.queryParameters),
   );
+
   const [bodyParameters, setBodyParameters] = useState(
     JSON.stringify(exampleJson.data),
   );
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
-  const createRequest = (queryParameters) => {
+  const createRequest = () => {
     return new Promise((resolve, reject) => {
+      const baseURL = 'https://httpbin.org/';
+      const url =
+        urlFormValue.length === 0 ? methodType.toLowerCase() : urlFormValue;
+
       try {
-        const baseURL = 'https://httpbin.org/';
-        const queryObject = new URLSearchParams(queryParameters);
-        const pathObject = new URL(baseURL + queryParameters);
-
-        const url =
-          pathObject.pathname.length - 1 === 0
-            ? methodType.toLowerCase()
-            : pathObject.pathname;
-
         const axiosConfig = {
           method: methodType,
           baseURL: baseURL,
           data: bodyParameters,
           url: url,
-          params: queryObject,
+          params: JSON.parse(queryParameters),
         };
 
         setTimeout(() => {
@@ -98,13 +95,13 @@ const HttpBin = () => {
         </Grid>
         <Grid item xs={8}>
           <FormInput
-            label="Query parameters "
-            helperText="Query parameters."
+            label="URL"
+            helperText="Use '/' to set empty path"
             multiline={false}
-            value={queryParameters}
+            value={urlFormValue}
             rowsMax={1}
             onChange={(event) => {
-              setQueryParameters(event.target.value);
+              setURLlFormValue(event.target.value);
             }}
           />
         </Grid>
@@ -138,6 +135,18 @@ const HttpBin = () => {
               )}
             </Button>
           </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <FormInput
+            label="Query parameters"
+            helperText="Query parameters"
+            rows={6}
+            rowsMax={15}
+            value={queryParameters}
+            onChange={(event) => {
+              setQueryParameters(event.target.value);
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <FormInput

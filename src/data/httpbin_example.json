@@ -1,5 +1,8 @@
 {
-  "requestConfig": "?ID=000032&ZIPcode=50003",
+  "queryParameters": {
+    "ID": "000032",
+    "ZIPcode": "50003"
+  },
   "data": {
     "name": "Molecule Man",
     "age": 29,
