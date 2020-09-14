@@ -45,28 +45,27 @@ const HttpBin = () => {
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
   const createRequest = () => {
-    return new Promise((resolve, reject) => {
-      const baseURL = 'https://httpbin.org/';
-      setTimeout(() => {
-        try {
-          axios({
-            method: methodType,
-            baseURL: baseURL,
-            data: bodyParameters,
-            url: methodType.toLowerCase(),
-            params: JSON.parse(queryParameters),
-          })
-            .then(({ data }) => {
-              resolve(data);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        } catch (error) {
-          reject(error);
-        }
-      }, 1000);
-    });
+    const baseURL = 'https://httpbin.org/as';
+    try {
+      axios({
+        method: methodType,
+        baseURL: baseURL,
+        data: bodyParameters,
+        url: methodType.toLowerCase(),
+        params: JSON.parse(queryParameters),
+      })
+        .then((response) => {
+          setResponseIsLoad(true);
+          setResponse(response);
+        })
+        .catch((error) => {
+          setResponseIsLoad(true);
+          setResponse(error.message);
+        });
+    } catch (error) {
+      setResponseIsLoad(true);
+      setResponse(error.message);
+    }
   };
 
   return (
@@ -98,16 +97,7 @@ const HttpBin = () => {
               onClick={() => {
                 if (responseIsLoad) {
                   setResponseIsLoad(false);
-                  createRequest(queryParameters).then(
-                    (data) => {
-                      setResponseIsLoad(true);
-                      setResponse(data);
-                    },
-                    (error) => {
-                      setResponseIsLoad(true);
-                      setResponse(error.message);
-                    },
-                  );
+                  createRequest();
                 }
               }}
             >
