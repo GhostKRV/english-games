@@ -45,7 +45,7 @@ const HttpBin = () => {
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
   const createRequest = () => {
-    const baseURL = 'https://httpbin.org/as';
+    const baseURL = 'https://httpbin.org/';
     try {
       axios({
         method: methodType,
