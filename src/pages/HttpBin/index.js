@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 const HttpBin = () => {
   const classes = useStyles();
   const [methodType, setCurrency] = useState('GET');
-  const [urlFormValue, setURLlFormValue] = useState('/get');
   const [queryParameters, setQueryParameters] = useState(
     JSON.stringify(exampleJson.queryParameters),
   );
@@ -48,30 +47,25 @@ const HttpBin = () => {
   const createRequest = () => {
     return new Promise((resolve, reject) => {
       const baseURL = 'https://httpbin.org/';
-      const url =
-        urlFormValue.length === 0 ? methodType.toLowerCase() : urlFormValue;
-
-      try {
-        const axiosConfig = {
-          method: methodType,
-          baseURL: baseURL,
-          data: bodyParameters,
-          url: url,
-          params: JSON.parse(queryParameters),
-        };
-
-        setTimeout(() => {
-          axios(axiosConfig)
+      setTimeout(() => {
+        try {
+          axios({
+            method: methodType,
+            baseURL: baseURL,
+            data: bodyParameters,
+            url: methodType.toLowerCase(),
+            params: JSON.parse(queryParameters),
+          })
             .then(({ data }) => {
               resolve(data);
             })
             .catch((error) => {
               reject(error);
             });
-        }, 1000);
-      } catch (error) {
-        reject(error);
-      }
+        } catch (error) {
+          reject(error);
+        }
+      }, 1000);
     });
   };
 
@@ -93,18 +87,7 @@ const HttpBin = () => {
             helperText="Please select request method"
           />
         </Grid>
-        <Grid item xs={8}>
-          <FormInput
-            label="URL"
-            helperText="Use '/' to set empty path"
-            multiline={false}
-            value={urlFormValue}
-            rowsMax={1}
-            onChange={(event) => {
-              setURLlFormValue(event.target.value);
-            }}
-          />
-        </Grid>
+        <Grid item xs={8}></Grid>
         <Grid item xs={2}>
           <Paper className={classes.paper}>
             <Button
