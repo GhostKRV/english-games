@@ -46,13 +46,14 @@ const HttpBin = () => {
 
   const createRequest = () => {
     const baseURL = 'https://httpbin.org/';
+    setResponseIsLoad(false);
     try {
       axios({
         method: methodType,
         baseURL: baseURL,
-        data: bodyParameters,
         url: methodType.toLowerCase(),
-        params: JSON.parse(queryParameters),
+        data: bodyParameters.length === 0 ? {} : JSON.parse(bodyParameters),
+        params: queryParameters.length === 0 ? {} : JSON.parse(queryParameters),
       })
         .then((response) => {
           setResponseIsLoad(true);
@@ -60,7 +61,13 @@ const HttpBin = () => {
         })
         .catch((error) => {
           setResponseIsLoad(true);
-          setResponse(error.message);
+          if (error.response) {
+            setResponse(error.response.data);
+          } else if (error.request) {
+            setResponse(error.request);
+          } else {
+            setResponse(error.message);
+          }
         });
     } catch (error) {
       setResponseIsLoad(true);
@@ -96,7 +103,6 @@ const HttpBin = () => {
               className={classes.sendButton}
               onClick={() => {
                 if (responseIsLoad) {
-                  setResponseIsLoad(false);
                   createRequest();
                 }
               }}
