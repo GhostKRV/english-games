@@ -1,0 +1,12 @@
+{
+  "queryParameters": {
+    "ID": "000032",
+    "ZIPcode": "50003"
+  },
+  "data": {
+    "name": "Molecule Man",
+    "age": 29,
+    "secretIdentity": "Dan Jukes",
+    "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+  }
+}
