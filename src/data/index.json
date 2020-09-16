@@ -1,0 +1,536 @@
+{
+  "homeConfig": [
+    {
+      "title": "Home",
+      "image_URL": "https://www.quickformationsblog.com/wp-content/uploads/2017/02/bigstock-128652314.jpg",
+      "route": "/"
+    },
+    {
+      "title": "Match card game",
+      "image_URL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/WMCZ_Protected_Areas_Card_Game-7_%28cropped%29.jpg/1200px-WMCZ_Protected_Areas_Card_Game-7_%28cropped%29.jpg",
+      "description": "The object of the game is to turn over pairs of matching cards.",
+      "route": "/matching"
+    },
+    {
+      "title": "Fortune Wheel",
+      "image_URL": "https://w7.pngwing.com/pngs/798/941/png-transparent-wheel-of-fortune-slots-casino-favorite-slots-television-show-game-show-others-television-game-computer-wallpaper.png",
+      "description": "spin the wheel to make a random ....",
+      "route": "/fortune"
+    },
+    {
+      "title": "HttpBin",
+      "image_URL": "https://miro.medium.com/max/3840/1*F81FMBmkY70bWw2Kjn3bvg.png",
+      "description": "httpbin.org",
+      "route": "/httpbin"
+    },
+    {
+      "title": "Quiz",
+      "image_URL": "https://lh3.googleusercontent.com/-p0Op6WyC_bN8NgSlSwmXKwkfVrn05lTDu39qp4NZVj9sf7IEHVQffvL4uAI9sS_aWO5=h800",
+      "description": "Take the test and get a grade",
+      "route": "/quiz"
+    }
+  ],
+  "matching": [
+    {
+      "word": "APPLE",
+      "definition": "FRUIT"
+    },
+    {
+      "word": "CAT",
+      "definition": "ANIMAL"
+    },
+    {
+      "word": "CARROT",
+      "definition": "VEGETABLES"
+    }
+  ],
+  "fortune": [
+    {
+      "question": "Question 1?",
+      "answer": "Answer 1",
+      "color": "#FFF"
+    },
+    {
+      "question": "Question 2?",
+      "answer": "Answer 2",
+      "color": "#333"
+    },
+    {
+      "question": "Question 3?",
+      "answer": "Answer 3",
+      "color": "#FF9933"
+    },
+    {
+      "question": "Question 4?",
+      "answer": "Answer 4",
+      "color": "#FF6633"
+    },
+    {
+      "question": "Question 5?",
+      "answer": "Answer 5",
+      "color": "#FF3300"
+    },
+    {
+      "question": "Question 6?",
+      "answer": "Answer 6",
+      "color": "#FF0033"
+    },
+    {
+      "question": "Question 7?",
+      "answer": "Answer 7",
+      "color": "#990033"
+    },
+    {
+      "question": "Question 8?",
+      "answer": "Answer 8",
+      "color": "#663333"
+    },
+    {
+      "question": "Question 9?",
+      "answer": "Answer 9",
+      "color": "#FF0099"
+    },
+    {
+      "question": "Question 10?",
+      "answer": "Answer 10",
+      "color": "#FF66FF"
+    },
+    {
+      "question": "Question 11?",
+      "answer": "Answer 11",
+      "color": "#9900CC"
+    },
+    {
+      "question": "Question 12?",
+      "answer": "Answer 12",
+      "color": "#9966FF"
+    },
+    {
+      "question": "Question 13?",
+      "answer": "Answer 13",
+      "color": "#333399"
+    },
+    {
+      "question": "Question 14?",
+      "answer": "Answer 14",
+      "color": "#0099FF"
+    },
+    {
+      "question": "Question 15?",
+      "answer": "Answer 15",
+      "color": "#33CCFF"
+    },
+    {
+      "question": "Question 16?",
+      "answer": "Answer 16",
+      "color": "#003333"
+    },
+    {
+      "question": "Question 17?",
+      "answer": "Answer 17",
+      "color": "#00CC99"
+    },
+    {
+      "question": "Question 18?",
+      "answer": "Answer 18",
+      "color": "#00CC66"
+    },
+    {
+      "question": "Question 19?",
+      "answer": "Answer 19",
+      "color": "#00FF00"
+    },
+    {
+      "question": "Question 20?",
+      "answer": "Answer 20",
+      "color": "#33FF00"
+    },
+    {
+      "question": "Question 21?",
+      "answer": "Answer 21",
+      "color": "#99CC00"
+    },
+    {
+      "question": "Question 22?",
+      "answer": "Answer 22",
+      "color": "#CCCC33"
+    },
+    {
+      "question": "Question 23?",
+      "answer": "Answer 23",
+      "color": "#CC0000"
+    },
+    {
+      "question": "Question 24?",
+      "answer": "Answer 24",
+      "color": "#CCFF99"
+    },
+    {
+      "question": "Question 25?",
+      "answer": "Answer 25",
+      "color": "#003300"
+    }
+  ],
+  "httpbin": {
+    "queryParameters": {
+      "ID": "000032",
+      "ZIPcode": "50003"
+    },
+    "data": {
+      "name": "Molecule Man",
+      "age": 29,
+      "secretIdentity": "Dan Jukes",
+      "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+    }
+  },
+  "quiz": [
+    {
+      "title": "Test #1",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #6",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #7",
+          "description": "Question description. Correct D.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #8",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #9",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #10",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "title": "Test #2",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question test 2 description. Correct D.",
+          "answers": ["Variant A", "Variant B", "Variant C", "Variant D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #6",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #7",
+          "description": "Question description. Correct D.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #8",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "title": "Test #3",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "title": "Test #4",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #6",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #7",
+          "description": "Question description. Correct D.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #8",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #9",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #10",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "title": "Test #5",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #6",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #7",
+          "description": "Question description. Correct D.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #8",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #9",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #10",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "title": "Test #6",
+      "questions": [
+        {
+          "title": "Question #1",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #2",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #3",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #4",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #5",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #6",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        },
+        {
+          "title": "Question #7",
+          "description": "Question description. Correct D.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 3
+        },
+        {
+          "title": "Question #8",
+          "description": "Question description. Correct C.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 2
+        },
+        {
+          "title": "Question #9",
+          "description": "Question description. Correct A.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 0
+        },
+        {
+          "title": "Question #10",
+          "description": "Question description. Correct B.",
+          "answers": ["Select A", "Select B", "Select C", "Select D"],
+          "correct": 1
+        }
+      ]
+    }
+  ]
+}

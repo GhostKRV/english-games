@@ -1,8 +1,8 @@
-import quizData from '../data/quiz.json';
+import {quiz} from '../data/index.json';
 import * as constants from '../constants/quiz';
 
 const initialState = {
-  tests: quizData,
+  tests: quiz,
   selectedTest: {},
   selectedQuestion: null,
 };

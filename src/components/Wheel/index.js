@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 import ModalWindow from '../ModalWindow';
-import fortune_data from '../../data/fortune.json';
+import { fortune } from '../../data/index.json';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
@@ -14,11 +14,11 @@ function Wheel() {
 
   function question(deg) {
     const questionNumber = Math.floor(
-      fortune_data.length - (deg % 360) / (360 / fortune_data.length),
+      fortune.length - (deg % 360) / (360 / fortune.length),
     );
     setModalProps({
       isActive: true,
-      questionText: fortune_data[questionNumber].question,
+      questionText: fortune[questionNumber].question,
     });
   }
 
@@ -51,7 +51,7 @@ function Wheel() {
 
     context.translate(circleParameters.width / 2, circleParameters.height / 2);
 
-    fortune_data.forEach((data, index) => {
+    fortune.forEach((data, index) => {
       context.strokeStyle = data.color;
 
       context.lineWidth = '150';
@@ -60,8 +60,8 @@ function Wheel() {
         0,
         0,
         circleParameters.width / 3,
-        (Math.PI * 2 * index) / fortune_data.length,
-        (Math.PI * 2 * ++index) / fortune_data.length,
+        (Math.PI * 2 * index) / fortune.length,
+        (Math.PI * 2 * ++index) / fortune.length,
       );
       context.stroke();
     });

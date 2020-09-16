@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import classnames from 'classnames';
 
-import quizData from '../../data/quiz.json';
+import { quiz } from '../../data/index.json';
 import LinkButton from '../../components/LinkButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,7 @@ const Quiz = () => {
         </Typography>
 
         <Grid container spacing={1}>
-          {quizData.map((quiz, index) => (
+          {quiz.map((quiz, index) => (
             <Grid key={index} item xs={12}>
               <Link
                 to={`../quiz/${index}`}

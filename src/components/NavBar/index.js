@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 
-import config from '../../data/home_config.json';
+import homeConfig from '../../data/index.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +26,7 @@ export default function NavBar() {
         color="primary"
         aria-label="small outlined button group"
       >
-        {config.map((game, index) => (
+        {homeConfig.homeConfig.map((game, index) => (
           <Button size="large" key={index} href={game.route}>
             {game.title}
           </Button>

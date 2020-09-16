@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Card from '../../components/Card';
-import cards from '../../data/matching.json';
+import {matching} from '../../data/index.json';
 
 const leftCards = randElements(
-  cards.map(({ right }, index) => ({ id: index, card: right })),
+  matching.map(({ word }, index) => ({ id: index, card: word })),
 );
 const rightCards = randElements(
-  cards.map(({ left }, index) => ({ id: index, card: left })),
+  matching.map(({ definition }, index) => ({ id: index, card: definition })),
 );
 
 function randElements(cards) {

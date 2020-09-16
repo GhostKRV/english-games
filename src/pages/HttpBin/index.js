@@ -15,7 +15,7 @@ import axios from 'axios';
 import FormInput from '../../components/FormInput';
 import SelectFormInput from '../../components/SelectFormInput';
 
-import exampleJson from '../../data/httpbin_example.json';
+import { httpbin } from '../../data/index.json';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,11 +35,11 @@ const HttpBin = () => {
   const classes = useStyles();
   const [methodType, setCurrency] = useState('GET');
   const [queryParameters, setQueryParameters] = useState(
-    JSON.stringify(exampleJson.queryParameters),
+    JSON.stringify(httpbin.queryParameters),
   );
 
   const [bodyParameters, setBodyParameters] = useState(
-    JSON.stringify(exampleJson.data),
+    JSON.stringify(httpbin.data),
   );
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);

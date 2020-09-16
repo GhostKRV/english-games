@@ -9,7 +9,7 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import config from '../../data/home_config.json';
+import { homeConfig } from '../../data/index.json';
 
 const useStyles = makeStyles((theme) => ({
   home_content: {
@@ -42,7 +42,7 @@ function HomePage() {
             <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
           </ListSubheader>
         </GridListTile>
-        {config.map((game, index) => (
+        {homeConfig.map((game, index) => (
           <GridListTile key={index}>
             <a href={game.route}>
               <img
