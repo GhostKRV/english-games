@@ -1,16 +1,19 @@
-import {quiz} from '../data/index.json';
 import * as constants from '../constants/quiz';
 
 const initialState = {
-  tests: quiz,
+  questions: [],
+  tests: {},
   selectedTest: {},
   selectedQuestion: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case constants.GET_QUESTIONS: {
+      return { ...state, questions: action.payload };
+    }
     case constants.GET_TEST_DETAILS:
-      return { ...state, selectedTest: state.tests[action.payload] };
+      return { ...state, selectedTest: action.payload };
 
     case constants.GET_SELECTED_QUESTIONS:
       return {

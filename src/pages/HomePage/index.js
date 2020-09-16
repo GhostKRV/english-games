@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   GridList,
@@ -9,7 +9,22 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { homeConfig } from '../../data/index.json';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { fetchHomeConfiguration } from '../../actions/home';
+
+const mapStateToProps = (props) => ({
+  home: props.home.home,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchHomeConfiguration: fetchHomeConfiguration,
+    },
+    dispatch,
+  );
 
 const useStyles = makeStyles((theme) => ({
   home_content: {
@@ -32,8 +47,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage() {
+const HomePage = (props) => {
+  const { home = [] } = props;
+
   const classes = useStyles();
+
+  useEffect(() => {
+    props.fetchHomeConfiguration();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={classes.home_content}>
       <GridList cellHeight={180} className={classes.gamesGrid}>
@@ -42,7 +65,7 @@ function HomePage() {
             <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
           </ListSubheader>
         </GridListTile>
-        {homeConfig.map((game, index) => (
+        {home.map((game, index) => (
           <GridListTile key={index}>
             <a href={game.route}>
               <img
@@ -60,6 +83,6 @@ function HomePage() {
       </GridList>
     </div>
   );
-}
+};
 
-export default HomePage;
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Grid, Divider } from '@material-ui/core/';
@@ -7,8 +7,24 @@ import { Link } from 'react-router-dom';
 
 import classnames from 'classnames';
 
-import { quiz } from '../../data/index.json';
 import LinkButton from '../../components/LinkButton';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { fetchQuestions } from '../../actions/quiz';
+
+const mapStateToProps = (props) => ({
+  questions: props.quiz.questions,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchQuestions: fetchQuestions,
+    },
+    dispatch,
+  );
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,8 +45,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Quiz = () => {
+const Quiz = (props) => {
   const classes = useStyles();
+
+  const { questions = [] } = props;
+
+  useEffect(() => {
+    props.fetchQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const ref = React.createRef();
   return (
     <div className={classnames(classes.root, classes.quizGames)}>
@@ -41,7 +64,7 @@ const Quiz = () => {
         </Typography>
 
         <Grid container spacing={1}>
-          {quiz.map((quiz, index) => (
+          {questions.map((quiz, index) => (
             <Grid key={index} item xs={12}>
               <Link
                 to={`../quiz/${index}`}
@@ -59,4 +82,4 @@ const Quiz = () => {
   );
 };
 
-export default Quiz;
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

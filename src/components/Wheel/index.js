@@ -1,11 +1,33 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 import ModalWindow from '../ModalWindow';
-import { fortune } from '../../data/index.json';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-function Wheel() {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { fetchFortuneData } from '../../actions/fortune';
+
+const mapStateToProps = (props) => ({
+  fortune: props.fortune.fortune,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchFortuneData: fetchFortuneData,
+    },
+    dispatch,
+  );
+
+const Wheel = (props) => {
+  const { fortune = [] } = props;
+  useEffect(() => {
+    props.fetchFortuneData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [rotateDegree, setRotateD] = useState(0.0);
   const [modalProps, setModalProps] = useState({
     isActive: false,
@@ -70,6 +92,7 @@ function Wheel() {
     circleParameters.height,
     circleParameters.pixelRatio,
     circleParameters.width,
+    fortune,
     rotateDegree,
   ]);
 
@@ -111,6 +134,6 @@ function Wheel() {
       </div>
     </div>
   );
-}
+};
 
-export default Wheel;
+export default connect(mapStateToProps, mapDispatchToProps)(Wheel);

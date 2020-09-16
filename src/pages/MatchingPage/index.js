@@ -1,24 +1,58 @@
 import React, { useState, useEffect } from 'react';
 
 import Card from '../../components/Card';
-import {matching} from '../../data/index.json';
 
-const leftCards = randElements(
-  matching.map(({ word }, index) => ({ id: index, card: word })),
-);
-const rightCards = randElements(
-  matching.map(({ definition }, index) => ({ id: index, card: definition })),
-);
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { fetchMatchingGameData } from '../../actions/matching';
+
+const mapStateToProps = (props) => ({
+  matching: props.matching.matching,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchMatchingGameData: fetchMatchingGameData,
+    },
+    dispatch,
+  );
 
 function randElements(cards) {
   let randCards = [...cards];
   randCards.sort(() => Math.random() - 0.5);
   return randCards;
 }
+const MatchingCard = (props) => {
+  const { matching = [] } = props;
 
-function MatchingCard() {
   const [selectedCard, setSelectedCard] = useState({ left: null, right: null });
   const [guessedCards, setGuesssedCards] = useState([]);
+
+  const [leftCards, setLeftCards] = useState([]);
+  const [rightCards, setRightCards] = useState([]);
+
+  useEffect(() => {
+    setLeftCards(
+      randElements(
+        matching.map(({ word }, index) => ({ id: index, card: word })),
+      ),
+    );
+    setRightCards(
+      randElements(
+        matching.map(({ definition }, index) => ({
+          id: index,
+          card: definition,
+        })),
+      ),
+    );
+  }, [matching]);
+
+  useEffect(() => {
+    props.fetchMatchingGameData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let timerChoose;
 
@@ -96,6 +130,6 @@ function MatchingCard() {
       </div>
     </div>
   );
-}
+};
 
-export default MatchingCard;
+export default connect(mapStateToProps, mapDispatchToProps)(MatchingCard);

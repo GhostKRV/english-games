@@ -31,11 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (props) => ({
-  questions: props.quiz.selectedTest.questions,
-  testTitle: props.quiz.selectedTest.title,
-  selectedQuestion: props.quiz.selectedQuestion,
-});
+const mapStateToProps = (props) => (
+  {
+    questions: props.quiz.selectedTest.questions,
+    testTitle: props.quiz.selectedTest.title,
+    selectedQuestion: props.quiz.selectedQuestion,
+  }
+);
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -68,7 +70,6 @@ const QuestionWrapper = (props) => {
     props.fetchSelectedQuestions(testAnswers.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testNumber, testAnswers]);
-
   if (selectedQuestion === null) {
     if (testAnswers.length) {
       return (
