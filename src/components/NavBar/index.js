@@ -1,27 +1,30 @@
-import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import React from 'react';
+import { Button, ButtonGroup, CircularProgress } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchHomeConfiguration } from '../../actions/home';
+import { fetchDataInitNavbar } from '../../actions/home';
 
 const mapStateToProps = (props) => ({
   home: props.home.home,
+  common: props.common,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      fetchHomeConfiguration: fetchHomeConfiguration,
+      fetchDataInitNavbar: fetchDataInitNavbar,
     },
     dispatch,
   );
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
+    zIndex: '1000',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -32,14 +35,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-  const { home = [] } = props;
+  const {
+    home = [],
+    common: { initNavbar = false, navbarError = null },
+  } = props;
   const classes = useStyles();
-
-  useEffect(() => {
-    props.fetchHomeConfiguration();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  if (initNavbar) {
+    props.fetchDataInitNavbar();
+  }
+  if (home.length === 0) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (navbarError) {
+    return (
+      <div align="center">
+        <p>{navbarError}</p>
+      </div>
+    );
+  }
   return (
     <div className={classes.root}>
       <ButtonGroup

@@ -1,24 +1,23 @@
 import * as constants from '../constants/quiz';
 
 const initialState = {
-  questions: [],
-  tests: {},
-  selectedTest: {},
-  selectedQuestion: null,
+  quiz: [],
+  testDetails: {questions: []},
+  testQuestion: {answers: []},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.GET_QUESTIONS: {
-      return { ...state, questions: action.payload };
+      return { ...state, quiz: action.payload };
     }
     case constants.GET_TEST_DETAILS:
-      return { ...state, selectedTest: action.payload };
+      return { ...state, testDetails: action.payload };
 
     case constants.GET_SELECTED_QUESTIONS:
       return {
         ...state,
-        selectedQuestion: state.selectedTest.questions[action.payload],
+        testQuestion: state.testDetails.questions[action.payload],
       };
 
     default:

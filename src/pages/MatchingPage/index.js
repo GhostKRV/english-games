@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Card from '../../components/Card';
 
+import { CircularProgress } from '@material-ui/core';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -9,6 +11,7 @@ import { fetchMatchingGameData } from '../../actions/matching';
 
 const mapStateToProps = (props) => ({
   matching: props.matching.matching,
+  common: props.common,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -25,7 +28,10 @@ function randElements(cards) {
   return randCards;
 }
 const MatchingCard = (props) => {
-  const { matching = [] } = props;
+  const {
+    matching = [],
+    common: { init = false, error = null },
+  } = props;
 
   const [selectedCard, setSelectedCard] = useState({ left: null, right: null });
   const [guessedCards, setGuesssedCards] = useState([]);
@@ -49,10 +55,9 @@ const MatchingCard = (props) => {
     );
   }, [matching]);
 
-  useEffect(() => {
+  if (init) {
     props.fetchMatchingGameData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
 
   let timerChoose;
 
@@ -78,6 +83,19 @@ const MatchingCard = (props) => {
     };
   }, [selectedCard]);
 
+  if (matching.length === 0) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div align="center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <div>
       <div className="game">

@@ -1,7 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Paper, Grid, Divider } from '@material-ui/core/';
+import {
+  Typography,
+  Paper,
+  Grid,
+  Divider,
+  CircularProgress,
+} from '@material-ui/core/';
 
 import { Link } from 'react-router-dom';
 
@@ -15,7 +21,8 @@ import { bindActionCreators } from 'redux';
 import { fetchQuestions } from '../../actions/quiz';
 
 const mapStateToProps = (props) => ({
-  questions: props.quiz.questions,
+  quiz: props.quiz.quiz,
+  common: props.common,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -47,14 +54,29 @@ const useStyles = makeStyles((theme) => ({
 
 const Quiz = (props) => {
   const classes = useStyles();
+  const {
+    quiz = [],
+    common: { init = false, error = null },
+  } = props;
 
-  const { questions = [] } = props;
-
-  useEffect(() => {
+  if (init) {
     props.fetchQuestions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
+
   const ref = React.createRef();
+  if (quiz.length === 0) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div align="center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <div className={classnames(classes.root, classes.quizGames)}>
       <Paper elevation={2} className={classes.paper}>
@@ -64,7 +86,7 @@ const Quiz = (props) => {
         </Typography>
 
         <Grid container spacing={1}>
-          {questions.map((quiz, index) => (
+          {quiz.map((quiz, index) => (
             <Grid key={index} item xs={12}>
               <Link
                 to={`../quiz/${index}`}

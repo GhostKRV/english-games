@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
   GridList,
   GridListTile,
   GridListTileBar,
   ListSubheader,
+  CircularProgress,
 } from '@material-ui/core/';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +17,7 @@ import { fetchHomeConfiguration } from '../../actions/home';
 
 const mapStateToProps = (props) => ({
   home: props.home.home,
+  common: props.common,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -48,15 +50,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = (props) => {
-  const { home = [] } = props;
+  const {
+    home = [],
+    common: { init = false, error = null },
+  } = props;
 
   const classes = useStyles();
 
-  useEffect(() => {
+  if (init) {
     props.fetchHomeConfiguration();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }
+  if (home.length === 0) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div align="center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <div className={classes.home_content}>
       <GridList cellHeight={180} className={classes.gamesGrid}>

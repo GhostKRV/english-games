@@ -7,7 +7,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.GET_FORTUNE_DATA:
-      return { ...state, fortune: action.payload};
+      return { ...state, fortune: action.payload };
 
     default:
       return state;

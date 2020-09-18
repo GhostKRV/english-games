@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Typography, Paper, Divider, Button, Box } from '@material-ui/core';
-import { Stepper, Step, StepLabel } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
@@ -31,13 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (props) => (
-  {
-    questions: props.quiz.selectedTest.questions,
-    testTitle: props.quiz.selectedTest.title,
-    selectedQuestion: props.quiz.selectedQuestion,
-  }
-);
+const mapStateToProps = (props) => ({
+  testDetails: props.quiz.testDetails,
+  testTitle: props.quiz.testDetails.title,
+  testQuestion: props.quiz.testQuestion,
+  common: props.common,
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -50,12 +49,11 @@ const mapDispatchToProps = (dispatch) =>
 
 const QuestionWrapper = (props) => {
   const {
-    match: { params: { testNumber = null } = {} } = {},
-    selectedQuestion = null,
     testTitle = null,
-    questions = [],
+    testQuestion = { answers: [] },
+    match: { params: { testNumber = null } = {} } = {},
+    common: { init = false, error = null },
   } = props;
-
   const [active, setActive] = useState(false);
   const [testAnswers, setTestAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState({
@@ -65,12 +63,29 @@ const QuestionWrapper = (props) => {
 
   const classes = useStyles();
 
-  useEffect(() => {
+  if (init) {
     props.fetchTestDetails(testNumber);
+  }
+
+  useEffect(() => {
     props.fetchSelectedQuestions(testAnswers.length);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testNumber, testAnswers]);
-  if (selectedQuestion === null) {
+  }, [props, testAnswers.length]);
+
+  if (testTitle === null) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div align="center">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (testQuestion.answers.length === 0) {
     if (testAnswers.length) {
       return (
         <Score
@@ -92,18 +107,11 @@ const QuestionWrapper = (props) => {
           <Divider />
         </Typography>
         <Typography variant="h6" gutterBottom>
-          {`${selectedQuestion.title}/${selectedQuestion.description}`}
+          {`${testQuestion.title}/${testQuestion.description}`}
         </Typography>
-        <Stepper activeStep={testAnswers.length} alternativeLabel>
-          {questions.map((question, index) => (
-            <Step key={index} completed={testAnswers[index]}>
-              <StepLabel disabled={true} />
-            </Step>
-          ))}
-        </Stepper>
         <Question
           selectedAnswer={selectedAnswer}
-          selectedQuestion={selectedQuestion}
+          selectedQuestion={testQuestion}
           setSelectedAnswer={setSelectedAnswer}
         />
         <Box className={classes.quizNavigation} spacing={1}>
@@ -146,10 +154,10 @@ const QuestionWrapper = (props) => {
               setSelectedAnswer({
                 ...selectedAnswer,
                 correctAnswer: selectedAnswer.userAnswer,
-                userAnswer: selectedQuestion.correct,
+                userAnswer: testQuestion.correct,
               });
               setTimeout(() => {
-                if (selectedAnswer.userAnswer === selectedQuestion.correct) {
+                if (selectedAnswer.userAnswer === testQuestion.correct) {
                   setTestAnswers([...testAnswers, true]);
                 } else {
                   setTestAnswers([...testAnswers, false]);

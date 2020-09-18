@@ -22,6 +22,7 @@ import { fetchHttpBinData } from '../../actions/httpbin';
 
 const mapStateToProps = (props) => ({
   httpbin: props.httpbin.httpbin,
+  common: props.common,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -48,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
 
 const HttpBin = (props) => {
   const classes = useStyles();
-  const { httpbin = {} } = props;
+  const {
+    httpbin = {},
+    common: { init = false, error = null },
+  } = props;
 
   const [methodType, setCurrency] = useState('GET');
   const [queryParameters, setQueryParameters] = useState('');
@@ -56,11 +60,13 @@ const HttpBin = (props) => {
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);
 
-  useEffect(() => {
+  if (init) {
     props.fetchHttpBinData();
+  }
+
+  useEffect(() => {
     setQueryParameters(JSON.stringify(httpbin.queryParameters));
     setBodyParameters(JSON.stringify(httpbin.data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [httpbin]);
 
   const createRequest = () => {
@@ -94,6 +100,19 @@ const HttpBin = (props) => {
     }
   };
 
+  if (Object.keys(httpbin).length === 0) {
+    return (
+      <div align="center">
+        <CircularProgress color="inherit" size={20} />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div align="center">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <Container>
       <Grid container spacing={1}>
