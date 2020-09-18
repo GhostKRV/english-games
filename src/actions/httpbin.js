@@ -23,7 +23,7 @@ export const fetchHttpBinData = () => (dispatch) => {
   dispatch(getDataInit(false));
   axios({
     method: 'get',
-    baseURL: 'url',
+    baseURL: url,
   })
     .then((response) => {
       dispatch(getHttpBinData(response.data.httpbin));
