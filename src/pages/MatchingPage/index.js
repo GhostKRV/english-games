@@ -83,7 +83,7 @@ const MatchingCard = (props) => {
     };
   }, [selectedCard]);
 
-  if (matching.length === 0) {
+  if (matching.length === 0 && error === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

@@ -100,7 +100,7 @@ const HttpBin = (props) => {
     }
   };
 
-  if (Object.keys(httpbin).length === 0) {
+  if (Object.keys(httpbin).length === 0 && error === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

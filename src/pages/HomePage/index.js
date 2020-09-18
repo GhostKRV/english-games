@@ -60,7 +60,7 @@ const HomePage = (props) => {
   if (init) {
     props.fetchHomeConfiguration();
   }
-  if (home.length === 0) {
+  if (home.length === 0 && error === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

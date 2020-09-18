@@ -71,7 +71,7 @@ const QuestionWrapper = (props) => {
     props.fetchSelectedQuestions(testAnswers.length);
   }, [props, testAnswers.length]);
 
-  if (testTitle === null) {
+  if (testTitle === null && error === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

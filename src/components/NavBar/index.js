@@ -43,7 +43,7 @@ const NavBar = (props) => {
   if (initNavbar) {
     props.fetchDataInitNavbar();
   }
-  if (home.length === 0) {
+  if (home.length === 0 && navbarError === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

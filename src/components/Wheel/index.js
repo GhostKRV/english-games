@@ -109,7 +109,7 @@ const Wheel = (props) => {
     height: circleParameters.height,
   };
 
-  if (fortune.length === 0) {
+  if (fortune.length === 0 && error === null) {
     return (
       <div>
         <canvas ref={canvas} style={{ display: 'none' }} />

@@ -64,7 +64,7 @@ const Quiz = (props) => {
   }
 
   const ref = React.createRef();
-  if (quiz.length === 0) {
+  if (quiz.length === 0 && error === null) {
     return (
       <div align="center">
         <CircularProgress color="inherit" size={20} />

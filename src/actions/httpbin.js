@@ -23,13 +23,14 @@ export const fetchHttpBinData = () => (dispatch) => {
   dispatch(getDataInit(false));
   axios({
     method: 'get',
-    baseURL: url,
+    baseURL: 'url',
   })
     .then((response) => {
       dispatch(getHttpBinData(response.data.httpbin));
     })
     .catch((error) => {
       if (error.response) {
+        console.log(error.response.data)
         dispatch(getDataError(error.response.data));
       } else if (error.request) {
         dispatch(getDataError(error.request));
