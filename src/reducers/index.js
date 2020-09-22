@@ -4,6 +4,13 @@ import home from './home';
 import matching from './matching';
 import fortune from './fortune';
 import httpbin from './httpbin';
-import common from './common'
+import firebase from './firebase';
 
-export default combineReducers({ quiz, home, matching, fortune, httpbin, common });
+export default combineReducers({
+  quiz,
+  home,
+  matching,
+  fortune,
+  httpbin,
+  firebase,
+});

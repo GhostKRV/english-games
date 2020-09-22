@@ -1,13 +1,13 @@
-import * as constants from '../constants/fortune';
+import { FETCH_FIREBASE_SUCCESS } from '../constants/firebase';
 
 const initialState = {
-  fortune: [],
+  data: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.GET_FORTUNE_DATA:
-      return { ...state, fortune: action.payload };
+    case FETCH_FIREBASE_SUCCESS:
+      return { ...state, data: action.payload.fortune };
 
     default:
       return state;

@@ -1,1 +1,0 @@
-export const GET_HTTPBIN_DATA = 'GET_HTTPBIN_DATA';

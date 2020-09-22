@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   GridList,
   GridListTile,
   GridListTileBar,
   ListSubheader,
-  CircularProgress,
 } from '@material-ui/core/';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,20 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchHomeConfiguration } from '../../actions/home';
+import { fetchFirebaseData } from '../../actions/firebase';
 
-const mapStateToProps = (props) => ({
-  home: props.home.home,
-  common: props.common,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchHomeConfiguration: fetchHomeConfiguration,
-    },
-    dispatch,
-  );
+import FirebaseWrapper from '../../containers/FirebaseWrapper';
 
 const useStyles = makeStyles((theme) => ({
   home_content: {
@@ -50,55 +38,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = (props) => {
-  const {
-    home = [],
-    common: { init = false, error = null },
-  } = props;
-
+  const { home = [] } = props;
   const classes = useStyles();
+  useEffect(() => {
+    props.fetchFirebaseData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (init) {
-    props.fetchHomeConfiguration();
-  }
-  if (home.length === 0 && error === null) {
-    return (
-      <div align="center">
-        <CircularProgress color="inherit" size={20} />
-      </div>
-    );
-  } else if (error) {
-    return (
-      <div align="center">
-        <p>{error}</p>
-      </div>
-    );
-  }
   return (
-    <div className={classes.home_content}>
-      <GridList cellHeight={180} className={classes.gamesGrid}>
-        <GridListTile cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">
-            <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
-          </ListSubheader>
-        </GridListTile>
-        {home.map((game, index) => (
-          <GridListTile key={index}>
-            <a href={game.route}>
-              <img
-                className={classes.menuGamesBackground}
-                src={game.image_URL}
-                alt={game.title}
-              />
-            </a>
-            <GridListTileBar
-              title={game.title}
-              subtitle={<span>{game.description}</span>}
-            />
+    <FirebaseWrapper>
+      <div className={classes.home_content}>
+        <GridList cellHeight={180} className={classes.gamesGrid}>
+          <GridListTile cols={2} style={{ height: 'auto' }}>
+            <ListSubheader component="div">
+              <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
+            </ListSubheader>
           </GridListTile>
-        ))}
-      </GridList>
-    </div>
+          {home.map((game, index) => (
+            <GridListTile key={index}>
+              <a href={game.route}>
+                <img
+                  className={classes.menuGamesBackground}
+                  src={game.image_URL}
+                  alt={game.title}
+                />
+              </a>
+              <GridListTileBar
+                title={game.title}
+                subtitle={<span>{game.description}</span>}
+              />
+            </GridListTile>
+          ))}
+        </GridList>
+      </div>
+    </FirebaseWrapper>
   );
 };
+
+const mapStateToProps = (props) => ({
+  home: props.home.data,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchFirebaseData: fetchFirebaseData,
+    },
+    dispatch,
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

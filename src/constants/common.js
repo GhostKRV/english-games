@@ -1,6 +1,0 @@
-export const GET_DATA_INIT = 'GET_DATA_INIT';
-export const GET_DATA_INIT_NAVBAR = 'GET_DATA_INIT_NAVBAR';
-
-export const GET_DATA_ERROR = 'GET_DATA_ERROR';
-export const GET_DATA_NAVBAR_ERROR = 'GET_DATA_NAVBAR_ERROR';
-

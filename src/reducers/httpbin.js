@@ -1,13 +1,13 @@
-import * as constants from '../constants/httpbin';
+import { FETCH_FIREBASE_SUCCESS } from '../constants/firebase';
 
 const initialState = {
-  httpbin: [],
+  data: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.GET_HTTPBIN_DATA:
-      return { ...state, httpbin: action.payload};
+    case FETCH_FIREBASE_SUCCESS:
+      return { ...state, data: action.payload.httpbin };
 
     default:
       return state;

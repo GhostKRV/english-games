@@ -1,18 +1,19 @@
 import * as constants from '../constants/quiz';
+import { FETCH_FIREBASE_SUCCESS } from '../constants/firebase';
 
 const initialState = {
-  quiz: [],
-  testDetails: {questions: []},
-  testQuestion: {answers: []},
+  data: [],
+  testDetails: { questions: [] },
+  testQuestion: { answers: [] },
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.GET_QUESTIONS: {
-      return { ...state, quiz: action.payload };
+    case FETCH_FIREBASE_SUCCESS: {
+      return { ...state, data: action.payload.quiz };
     }
     case constants.GET_TEST_DETAILS:
-      return { ...state, testDetails: action.payload };
+      return { ...state, testDetails: state.data[action.payload] };
 
     case constants.GET_SELECTED_QUESTIONS:
       return {

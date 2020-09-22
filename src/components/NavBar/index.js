@@ -1,25 +1,12 @@
-import React from 'react';
-import { Button, ButtonGroup, CircularProgress } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Button, ButtonGroup } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchDataInitNavbar } from '../../actions/home';
-
-const mapStateToProps = (props) => ({
-  home: props.home.home,
-  common: props.common,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchDataInitNavbar: fetchDataInitNavbar,
-    },
-    dispatch,
-  );
+import { fetchFirebaseData } from '../../actions/firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,27 +22,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-  const {
-    home = [],
-    common: { initNavbar = false, navbarError = null },
-  } = props;
+  const { home = [] } = props;
   const classes = useStyles();
-  if (initNavbar) {
-    props.fetchDataInitNavbar();
-  }
-  if (home.length === 0 && navbarError === null) {
-    return (
-      <div align="center">
-        <CircularProgress color="inherit" size={20} />
-      </div>
-    );
-  } else if (navbarError) {
-    return (
-      <div align="center">
-        <p>{navbarError}</p>
-      </div>
-    );
-  }
+
+  useEffect(() => {
+    props.fetchFirebaseData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={classes.root}>
       <ButtonGroup
@@ -72,5 +46,17 @@ const NavBar = (props) => {
     </div>
   );
 };
+
+const mapStateToProps = (props) => ({
+  home: props.home.data,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchFirebaseData: fetchFirebaseData,
+    },
+    dispatch,
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

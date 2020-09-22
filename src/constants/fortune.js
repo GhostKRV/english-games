@@ -1,1 +1,0 @@
-export const GET_FORTUNE_DATA = 'GET_FORTUNE_DATA';

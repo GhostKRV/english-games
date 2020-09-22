@@ -1,13 +1,13 @@
-import * as constants from '../constants/matching';
+import { FETCH_FIREBASE_SUCCESS } from '../constants/firebase';
 
 const initialState = {
-  matching: [],
+  data: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.GET_MATCHING_GAME_DATA:
-      return { ...state, matching: action.payload };
+    case FETCH_FIREBASE_SUCCESS:
+      return { ...state, data: action.payload.matching };
 
     default:
       return state;

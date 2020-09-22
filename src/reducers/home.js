@@ -1,16 +1,13 @@
-import * as constants from '../constants/home';
+import { FETCH_FIREBASE_SUCCESS } from '../constants/firebase';
 
-const initialState = {
-  home: [],
-};
+const initialState = { data: [] };
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
-    case constants.GET_HOME_CONFIGURATION:
-      return { ...state, home: action.payload};  
+    case FETCH_FIREBASE_SUCCESS:
+      return { ...state, data: action.payload.home };
+
     default:
       return state;
   }
 };
-
-export default reducer;
