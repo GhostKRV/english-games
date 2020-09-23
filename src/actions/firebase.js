@@ -36,9 +36,9 @@ export const fetchFirebaseData = () => (dispatch) => {
       if (error.response) {
         dispatch(fetchFirebaseDataFail(error.response.data.error));
       } else if (error.request) {
-        dispatch(fetchFirebaseDataFail(error.message));
+        dispatch(fetchFirebaseDataFail(error));
       } else {
-        dispatch(fetchFirebaseDataFail(error.message));
+        dispatch(fetchFirebaseDataFail(error));
       }
     });
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LoadError = ({ error }) => {
-  const { message = error, code = null } = error;
+  const { message = null, code = null } = error;
   return (
     <div align="center">
       <p>{code}</p>
