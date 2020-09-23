@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core/';
+} from '@material-ui/core';
 
 const SkipModalWindow = (props) => {
   const { active = false, onClose, fetchTestAnswers } = props;

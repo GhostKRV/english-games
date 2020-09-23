@@ -3,11 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { fetchFirebaseData } from '../../actions/firebase';
-
-import FirebaseWrapper from '../../containers/FirebaseWrapper';
 
 function randElements(cards) {
   let randCards = [...cards];
@@ -40,19 +35,13 @@ const MatchingCard = (props) => {
   }, [matching]);
 
   useEffect(() => {
-    props.fetchFirebaseData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    let timerChoose;
 
-  let timerChoose;
-
-  useEffect(() => {
     if (selectedCard.left !== null && selectedCard.right !== null) {
       if (selectedCard.left === selectedCard.right) {
         setSelectedCard({ left: null, right: null });
         setGuesssedCards([...guessedCards, selectedCard.left]);
       } else {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         timerChoose = setTimeout(() => {
           setSelectedCard({ left: null, right: null });
         }, 1000);
@@ -66,61 +55,59 @@ const MatchingCard = (props) => {
     return () => {
       clearTimeout(timerChoose);
     };
-  }, [selectedCard]);
+  }, [guessedCards, selectedCard]);
 
   return (
-    <FirebaseWrapper>
-      <div>
-        <div className="game">
-          <div className="column">
-            {leftCards.map(({ id, card }) => (
-              <Card
-                key={`left-${id}`}
-                isSuccess={guessedCards.indexOf(id) !== -1}
-                disabled={selectedCard.left !== null}
-                activeButton={
-                  selectedCard.left === id &&
-                  selectedCard.left !== null &&
-                  selectedCard.right === null
-                }
-                wrongAnswer={
-                  selectedCard.left !== selectedCard.right &&
-                  selectedCard.left === id &&
-                  selectedCard.right !== null
-                }
-                clickHandler={() => {
-                  setSelectedCard({ ...selectedCard, left: id });
-                }}
-                val={card}
-              />
-            ))}
-          </div>
-          <div className="column">
-            {rightCards.map(({ id, card }) => (
-              <Card
-                key={`right-${id}`}
-                isSuccess={guessedCards.indexOf(id) !== -1}
-                disabled={selectedCard.right !== null}
-                activeButton={
-                  selectedCard.right === id &&
-                  selectedCard.right !== null &&
-                  selectedCard.left === null
-                }
-                wrongAnswer={
-                  selectedCard.right !== selectedCard.left &&
-                  selectedCard.right === id &&
-                  selectedCard.left !== null
-                }
-                clickHandler={() => {
-                  setSelectedCard({ ...selectedCard, right: id });
-                }}
-                val={card}
-              />
-            ))}
-          </div>
+    <div>
+      <div className="game">
+        <div className="column">
+          {leftCards.map(({ id, card }) => (
+            <Card
+              key={`left-${id}`}
+              isSuccess={guessedCards.indexOf(id) !== -1}
+              disabled={selectedCard.left !== null}
+              activeButton={
+                selectedCard.left === id &&
+                selectedCard.left !== null &&
+                selectedCard.right === null
+              }
+              wrongAnswer={
+                selectedCard.left !== selectedCard.right &&
+                selectedCard.left === id &&
+                selectedCard.right !== null
+              }
+              clickHandler={() => {
+                setSelectedCard({ ...selectedCard, left: id });
+              }}
+              val={card}
+            />
+          ))}
+        </div>
+        <div className="column">
+          {rightCards.map(({ id, card }) => (
+            <Card
+              key={`right-${id}`}
+              isSuccess={guessedCards.indexOf(id) !== -1}
+              disabled={selectedCard.right !== null}
+              activeButton={
+                selectedCard.right === id &&
+                selectedCard.right !== null &&
+                selectedCard.left === null
+              }
+              wrongAnswer={
+                selectedCard.right !== selectedCard.left &&
+                selectedCard.right === id &&
+                selectedCard.left !== null
+              }
+              clickHandler={() => {
+                setSelectedCard({ ...selectedCard, right: id });
+              }}
+              val={card}
+            />
+          ))}
         </div>
       </div>
-    </FirebaseWrapper>
+    </div>
   );
 };
 
@@ -128,12 +115,4 @@ const mapStateToProps = (props) => ({
   matching: props.matching.data,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchFirebaseData: fetchFirebaseData,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(MatchingCard);
+export default connect(mapStateToProps)(MatchingCard);

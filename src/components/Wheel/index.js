@@ -5,19 +5,9 @@ import { Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { fetchFirebaseData } from '../../actions/firebase';
-
-import FirebaseWrapper from '../../containers/FirebaseWrapper';
 
 const Wheel = (props) => {
   const { fortune = [] } = props;
-
-  useEffect(() => {
-    props.fetchFirebaseData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const [rotateDegree, setRotateD] = useState(0.0);
   const [modalProps, setModalProps] = useState({
@@ -92,6 +82,7 @@ const Wheel = (props) => {
     circleParameters.width,
     fortune,
     rotateDegree,
+    canvas,
   ]);
 
   const dw = Math.floor(circleParameters.pixelRatio * circleParameters.width);
@@ -102,37 +93,35 @@ const Wheel = (props) => {
   };
 
   return (
-    <FirebaseWrapper>
-      <div className="Wheel">
-        <ModalWindow
-          isActive={modalProps.isActive}
-          questionText={modalProps.questionText}
-          onClose={() => {
-            setModalProps({
-              isActive: false,
-            });
-          }}
-        />
-        <canvas
-          className="canvasWheel"
-          ref={canvas}
-          width={dw}
-          height={dh}
-          style={style}
-        />
-        <div className="doSpin">
-          <ArrowBackIosIcon fontSize="large" />
-          <Button
-            size="large"
-            onClick={spin}
-            variant="contained"
-            color="secondary"
-          >
-            DO SPIN
-          </Button>
-        </div>
+    <div className="Wheel">
+      <ModalWindow
+        isActive={modalProps.isActive}
+        questionText={modalProps.questionText}
+        onClose={() => {
+          setModalProps({
+            isActive: false,
+          });
+        }}
+      />
+      <canvas
+        className="canvasWheel"
+        ref={canvas}
+        width={dw}
+        height={dh}
+        style={style}
+      />
+      <div className="doSpin">
+        <ArrowBackIosIcon fontSize="large" />
+        <Button
+          size="large"
+          onClick={spin}
+          variant="contained"
+          color="secondary"
+        >
+          DO SPIN
+        </Button>
       </div>
-    </FirebaseWrapper>
+    </div>
   );
 };
 
@@ -140,12 +129,4 @@ const mapStateToProps = (props) => ({
   fortune: props.fortune.data,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchFirebaseData: fetchFirebaseData,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Wheel);
+export default connect(mapStateToProps)(Wheel);

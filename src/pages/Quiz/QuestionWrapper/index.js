@@ -23,11 +23,7 @@ import {
   fetchTestDetails,
 } from '../../../actions/quiz';
 
-import { fetchFirebaseData } from '../../../actions/firebase';
-
 import SkipModalWindow from '../../../components/SkipModalWindow';
-
-import FirebaseWrapper from '../../../containers/FirebaseWrapper';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -61,20 +57,12 @@ const QuestionWrapper = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    props.fetchFirebaseData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     props.fetchTestDetails(testNumber);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (Object.keys(testDetails).length > 1) {
-      props.fetchSelectedQuestions(testAnswers.length);
-    }
+    props.fetchSelectedQuestions(testAnswers.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, testDetails]);
 
@@ -93,90 +81,88 @@ const QuestionWrapper = (props) => {
   }
 
   return (
-    <FirebaseWrapper>
-      <div className={classes.root}>
-        <Paper elevation={2} className={classes.paper}>
-          <Typography variant="h5" gutterBottom>
-            {testTitle}
-            <Divider />
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-            {`${testQuestion.title}/${testQuestion.description}`}
-          </Typography>
-          <Stepper activeStep={testAnswers.length} alternativeLabel>
-            {testDetails.questions.map((question, index) => (
-              <Step key={index} completed={testAnswers[index]}>
-                <StepLabel disabled={true} />
-              </Step>
-            ))}
-          </Stepper>
-          <Question
-            selectedAnswer={selectedAnswer}
-            selectedQuestion={testQuestion}
-            setSelectedAnswer={setSelectedAnswer}
+    <div className={classes.root}>
+      <Paper elevation={2} className={classes.paper}>
+        <Typography variant="h5" gutterBottom>
+          {testTitle}
+          <Divider />
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          {`${testQuestion.title}/${testQuestion.description}`}
+        </Typography>
+        <Stepper activeStep={testAnswers.length} alternativeLabel>
+          {testDetails.questions.map((question, index) => (
+            <Step key={index} completed={testAnswers[index]}>
+              <StepLabel disabled={true} />
+            </Step>
+          ))}
+        </Stepper>
+        <Question
+          selectedAnswer={selectedAnswer}
+          selectedQuestion={testQuestion}
+          setSelectedAnswer={setSelectedAnswer}
+        />
+        <Box className={classes.quizNavigation} spacing={1}>
+          <SkipModalWindow
+            active={active}
+            onClose={() => {
+              setActive(false);
+            }}
+            fetchTestAnswers={() => {
+              setTestAnswers([...testAnswers, false]);
+            }}
           />
-          <Box className={classes.quizNavigation} spacing={1}>
-            <SkipModalWindow
-              active={active}
-              onClose={() => {
-                setActive(false);
-              }}
-              fetchTestAnswers={() => {
-                setTestAnswers([...testAnswers, false]);
-              }}
-            />
-            <Button
-              size="large"
-              color="secondary"
-              disabled={
-                selectedAnswer.userAnswer !== null &&
-                selectedAnswer.correctAnswer !== null
-              }
-              onClick={() => {
-                setActive(true);
+          <Button
+            size="large"
+            color="secondary"
+            disabled={
+              selectedAnswer.userAnswer !== null &&
+              selectedAnswer.correctAnswer !== null
+            }
+            onClick={() => {
+              setActive(true);
+              setSelectedAnswer({
+                ...selectedAnswer,
+                userAnswer: null,
+                correctAnswer: null,
+              });
+            }}
+          >
+            Skip
+          </Button>
+          <Divider orientation="vertical" flexItem />
+          <Button
+            color="primary"
+            size="large"
+            disabled={
+              selectedAnswer.correctAnswer !== null ||
+              selectedAnswer.userAnswer === null
+            }
+            onClick={() => {
+              setSelectedAnswer({
+                ...selectedAnswer,
+                correctAnswer: selectedAnswer.userAnswer,
+                userAnswer: testQuestion.correct,
+              });
+              setTimeout(() => {
+                if (selectedAnswer.userAnswer === testQuestion.correct) {
+                  setTestAnswers([...testAnswers, true]);
+                } else {
+                  setTestAnswers([...testAnswers, false]);
+                }
                 setSelectedAnswer({
                   ...selectedAnswer,
                   userAnswer: null,
                   correctAnswer: null,
                 });
-              }}
-            >
-              Skip
-            </Button>
-            <Divider orientation="vertical" flexItem />
-            <Button
-              color="primary"
-              size="large"
-              disabled={
-                selectedAnswer.correctAnswer !== null ||
-                selectedAnswer.userAnswer === null
-              }
-              onClick={() => {
-                setSelectedAnswer({
-                  ...selectedAnswer,
-                  correctAnswer: selectedAnswer.userAnswer,
-                  userAnswer: testQuestion.correct,
-                });
-                setTimeout(() => {
-                  if (selectedAnswer.userAnswer === testQuestion.correct) {
-                    setTestAnswers([...testAnswers, true]);
-                  } else {
-                    setTestAnswers([...testAnswers, false]);
-                  }
-                  setSelectedAnswer({
-                    ...selectedAnswer,
-                    userAnswer: null,
-                    correctAnswer: null,
-                  });
-                }, 1500);
-              }}
-            >
-              Check
-            </Button>
-          </Box>
-        </Paper>
-      </div>
-    </FirebaseWrapper>
+              }, 1500);
+            }}
+          >
+            Check
+          </Button>
+        </Box>
+      </Paper>
+    </div>
   );
 };
 
@@ -189,7 +175,6 @@ const mapStateToProps = (props) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      fetchFirebaseData: fetchFirebaseData,
       fetchTestDetails: fetchTestDetails,
       fetchSelectedQuestions: fetchSelectedQuestions,
     },

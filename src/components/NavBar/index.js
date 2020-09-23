@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+
 import { Button, ButtonGroup } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { fetchFirebaseData } from '../../actions/firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,11 +22,6 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
   const { home = [] } = props;
   const classes = useStyles();
-
-  useEffect(() => {
-    props.fetchFirebaseData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -51,12 +44,4 @@ const mapStateToProps = (props) => ({
   home: props.home.data,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchFirebaseData: fetchFirebaseData,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar);
