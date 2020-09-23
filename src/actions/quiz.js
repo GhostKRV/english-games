@@ -4,6 +4,7 @@ const getTestDetails = (payload) => ({
   type: constants.GET_TEST_DETAILS,
   payload: payload,
 });
+
 export const fetchTestDetails = (id) => (dispatch) => {
   dispatch(getTestDetails(id));
 };
@@ -15,4 +16,3 @@ const getSelectedQuestions = (payload) => ({
 export const fetchSelectedQuestions = (id) => (dispatch) => {
   dispatch(getSelectedQuestions(id));
 };
-

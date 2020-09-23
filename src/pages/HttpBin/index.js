@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   Container,
@@ -15,7 +15,7 @@ import axios from 'axios';
 import FormInput from '../../components/FormInput';
 import SelectFormInput from '../../components/SelectFormInput';
 
-import exampleJson from '../../data/httpbin_example.json';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,18 +31,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HttpBin = () => {
+const HttpBin = (props) => {
   const classes = useStyles();
-  const [methodType, setCurrency] = useState('GET');
-  const [queryParameters, setQueryParameters] = useState(
-    JSON.stringify(exampleJson.queryParameters),
-  );
+  const { httpbin = {} } = props;
 
-  const [bodyParameters, setBodyParameters] = useState(
-    JSON.stringify(exampleJson.data),
-  );
+  const [methodType, setCurrency] = useState('GET');
+  const [queryParameters, setQueryParameters] = useState('');
+  const [bodyParameters, setBodyParameters] = useState('');
   const [response, setResponse] = useState({});
   const [responseIsLoad, setResponseIsLoad] = useState(true);
+
+  useEffect(() => {
+    setQueryParameters(JSON.stringify(httpbin.queryParameters));
+    setBodyParameters(JSON.stringify(httpbin.data));
+  }, [httpbin]);
 
   const createRequest = () => {
     const baseURL = 'https://httpbin.org/';
@@ -152,4 +154,8 @@ const HttpBin = () => {
   );
 };
 
-export default HttpBin;
+const mapStateToProps = (props) => ({
+  httpbin: props.httpbin.data,
+});
+
+export default connect(mapStateToProps)(HttpBin);

@@ -21,12 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FormInput = (props) => {
   const classes = useStyles();
-  const {
-    value = null,
-    onChange,
-    label = null,
-    helperText = null,
-  } = props;
+  const { value = null, onChange, label = null, helperText = null } = props;
 
   return (
     <Paper className={classes.paper}>

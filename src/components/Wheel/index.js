@@ -1,11 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 import ModalWindow from '../ModalWindow';
-import fortune_data from '../../data/fortune.json';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-function Wheel() {
+import { connect } from 'react-redux';
+
+const Wheel = (props) => {
+  const { fortune = [] } = props;
+
   const [rotateDegree, setRotateD] = useState(0.0);
   const [modalProps, setModalProps] = useState({
     isActive: false,
@@ -14,11 +17,11 @@ function Wheel() {
 
   function question(deg) {
     const questionNumber = Math.floor(
-      fortune_data.length - (deg % 360) / (360 / fortune_data.length),
+      fortune.length - (deg % 360) / (360 / fortune.length),
     );
     setModalProps({
       isActive: true,
-      questionText: fortune_data[questionNumber].question,
+      questionText: fortune[questionNumber].question,
     });
   }
 
@@ -42,35 +45,44 @@ function Wheel() {
   const canvas = useRef(null);
 
   useEffect(() => {
-    const context = canvas.current.getContext('2d');
+    if (canvas.current !== null) {
+      const context = canvas.current.getContext('2d');
+      context.save();
 
-    context.save();
-    context.scale(circleParameters.pixelRatio, circleParameters.pixelRatio);
-    context.fillStyle = 'rgba(255, 255, 255, 0.0)';
-    context.fillRect(0, 0, circleParameters.width, circleParameters.height);
+      context.scale(circleParameters.pixelRatio, circleParameters.pixelRatio);
+      context.fillStyle = 'rgba(255, 255, 255, 0.0)';
+      context.fillRect(0, 0, circleParameters.width, circleParameters.height);
 
-    context.translate(circleParameters.width / 2, circleParameters.height / 2);
-
-    fortune_data.forEach((data, index) => {
-      context.strokeStyle = data.color;
+      context.translate(
+        circleParameters.width / 2,
+        circleParameters.height / 2,
+      );
 
       context.lineWidth = '150';
-      context.beginPath();
-      context.arc(
-        0,
-        0,
-        circleParameters.width / 3,
-        (Math.PI * 2 * index) / fortune_data.length,
-        (Math.PI * 2 * ++index) / fortune_data.length,
-      );
-      context.stroke();
-    });
-    context.restore();
+
+      fortune.forEach((data, index) => {
+        context.strokeStyle = data.color;
+        context.beginPath();
+        context.arc(
+          0,
+          0,
+          circleParameters.width / 3,
+          (Math.PI * 2 * index) / fortune.length,
+          (Math.PI * 2 * ++index) / fortune.length,
+        );
+
+        context.stroke();
+      });
+
+      context.restore();
+    }
   }, [
     circleParameters.height,
     circleParameters.pixelRatio,
     circleParameters.width,
+    fortune,
     rotateDegree,
+    canvas,
   ]);
 
   const dw = Math.floor(circleParameters.pixelRatio * circleParameters.width);
@@ -111,6 +123,10 @@ function Wheel() {
       </div>
     </div>
   );
-}
+};
 
-export default Wheel;
+const mapStateToProps = (props) => ({
+  fortune: props.fortune.data,
+});
+
+export default connect(mapStateToProps)(Wheel);

@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Typography, Paper, Divider, Button, Box } from '@material-ui/core';
-import { Stepper, Step, StepLabel } from '@material-ui/core';
+import {
+  Typography,
+  Paper,
+  Divider,
+  Button,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
@@ -31,29 +39,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (props) => ({
-  questions: props.quiz.selectedTest.questions,
-  testTitle: props.quiz.selectedTest.title,
-  selectedQuestion: props.quiz.selectedQuestion,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchTestDetails: fetchTestDetails,
-      fetchSelectedQuestions: fetchSelectedQuestions,
-    },
-    dispatch,
-  );
-
 const QuestionWrapper = (props) => {
   const {
-    match: { params: { testNumber = null } = {} } = {},
-    selectedQuestion = null,
+    data = [],
+    testDetails = { questions: [] },
     testTitle = null,
-    questions = [],
+    testQuestion = { answers: [] },
+    match: { params: { testNumber = null } = {} } = {},
   } = props;
-
   const [active, setActive] = useState(false);
   const [testAnswers, setTestAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState({
@@ -65,11 +58,15 @@ const QuestionWrapper = (props) => {
 
   useEffect(() => {
     props.fetchTestDetails(testNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
     props.fetchSelectedQuestions(testAnswers.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testNumber, testAnswers]);
+  }, [data, testDetails]);
 
-  if (selectedQuestion === null) {
+  if (testQuestion.answers.length === 0) {
     if (testAnswers.length) {
       return (
         <Score
@@ -91,10 +88,10 @@ const QuestionWrapper = (props) => {
           <Divider />
         </Typography>
         <Typography variant="h6" gutterBottom>
-          {`${selectedQuestion.title}/${selectedQuestion.description}`}
+          {`${testQuestion.title}/${testQuestion.description}`}
         </Typography>
         <Stepper activeStep={testAnswers.length} alternativeLabel>
-          {questions.map((question, index) => (
+          {testDetails.questions.map((question, index) => (
             <Step key={index} completed={testAnswers[index]}>
               <StepLabel disabled={true} />
             </Step>
@@ -102,7 +99,7 @@ const QuestionWrapper = (props) => {
         </Stepper>
         <Question
           selectedAnswer={selectedAnswer}
-          selectedQuestion={selectedQuestion}
+          selectedQuestion={testQuestion}
           setSelectedAnswer={setSelectedAnswer}
         />
         <Box className={classes.quizNavigation} spacing={1}>
@@ -145,10 +142,10 @@ const QuestionWrapper = (props) => {
               setSelectedAnswer({
                 ...selectedAnswer,
                 correctAnswer: selectedAnswer.userAnswer,
-                userAnswer: selectedQuestion.correct,
+                userAnswer: testQuestion.correct,
               });
               setTimeout(() => {
-                if (selectedAnswer.userAnswer === selectedQuestion.correct) {
+                if (selectedAnswer.userAnswer === testQuestion.correct) {
                   setTestAnswers([...testAnswers, true]);
                 } else {
                   setTestAnswers([...testAnswers, false]);
@@ -168,5 +165,20 @@ const QuestionWrapper = (props) => {
     </div>
   );
 };
+
+const mapStateToProps = (props) => ({
+  quiz: props.quiz.data,
+  testDetails: props.quiz.testDetails,
+  testQuestion: props.quiz.testQuestion,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchTestDetails: fetchTestDetails,
+      fetchSelectedQuestions: fetchSelectedQuestions,
+    },
+    dispatch,
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionWrapper);

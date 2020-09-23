@@ -1,34 +1,47 @@
 import React, { useState, useEffect } from 'react';
 
 import Card from '../../components/Card';
-import cards from '../../data/matching.json';
 
-const leftCards = randElements(
-  cards.map(({ right }, index) => ({ id: index, card: right })),
-);
-const rightCards = randElements(
-  cards.map(({ left }, index) => ({ id: index, card: left })),
-);
+import { connect } from 'react-redux';
 
 function randElements(cards) {
   let randCards = [...cards];
   randCards.sort(() => Math.random() - 0.5);
   return randCards;
 }
+const MatchingCard = (props) => {
+  const { matching = [] } = props;
 
-function MatchingCard() {
   const [selectedCard, setSelectedCard] = useState({ left: null, right: null });
   const [guessedCards, setGuesssedCards] = useState([]);
 
-  let timerChoose;
+  const [leftCards, setLeftCards] = useState([]);
+  const [rightCards, setRightCards] = useState([]);
 
   useEffect(() => {
+    setLeftCards(
+      randElements(
+        matching.map(({ word }, index) => ({ id: index, card: word })),
+      ),
+    );
+    setRightCards(
+      randElements(
+        matching.map(({ definition }, index) => ({
+          id: index,
+          card: definition,
+        })),
+      ),
+    );
+  }, [matching]);
+
+  useEffect(() => {
+    let timerChoose;
+
     if (selectedCard.left !== null && selectedCard.right !== null) {
       if (selectedCard.left === selectedCard.right) {
         setSelectedCard({ left: null, right: null });
         setGuesssedCards([...guessedCards, selectedCard.left]);
       } else {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         timerChoose = setTimeout(() => {
           setSelectedCard({ left: null, right: null });
         }, 1000);
@@ -42,7 +55,7 @@ function MatchingCard() {
     return () => {
       clearTimeout(timerChoose);
     };
-  }, [selectedCard]);
+  }, [guessedCards, selectedCard]);
 
   return (
     <div>
@@ -96,6 +109,10 @@ function MatchingCard() {
       </div>
     </div>
   );
-}
+};
 
-export default MatchingCard;
+const mapStateToProps = (props) => ({
+  matching: props.matching.data,
+});
+
+export default connect(mapStateToProps)(MatchingCard);

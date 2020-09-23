@@ -5,11 +5,11 @@ import {
   GridListTile,
   GridListTileBar,
   ListSubheader,
-} from '@material-ui/core/';
+} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import config from '../../data/home_config.json';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   home_content: {
@@ -32,8 +32,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage() {
+const HomePage = (props) => {
+  const { home = [] } = props;
   const classes = useStyles();
+
   return (
     <div className={classes.home_content}>
       <GridList cellHeight={180} className={classes.gamesGrid}>
@@ -42,7 +44,7 @@ function HomePage() {
             <h1 className={classes.headerTitle}>ENGLISH GAMES</h1>
           </ListSubheader>
         </GridListTile>
-        {config.map((game, index) => (
+        {home.map((game, index) => (
           <GridListTile key={index}>
             <a href={game.route}>
               <img
@@ -60,6 +62,10 @@ function HomePage() {
       </GridList>
     </div>
   );
-}
+};
 
-export default HomePage;
+const mapStateToProps = (props) => ({
+  home: props.home.data,
+});
+
+export default connect(mapStateToProps)(HomePage);
