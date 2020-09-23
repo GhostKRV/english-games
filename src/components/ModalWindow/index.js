@@ -1,15 +1,14 @@
 import React from 'react';
+
 import { withStyles } from '@material-ui/core/styles';
+import { Button, Dialog, IconButton, Typography } from '@material-ui/core/';
 import {
-  Button,
-  Dialog,
-  MuiDialogContent,
-  MuiDialogTitle,
-  MuiDialogActions,
-  IconButton,
-  CloseIcon,
-  Typography,
-} from '@material-ui/core/Button';
+  DialogTitle as MuiDialogTitle,
+  DialogContent as MuiDialogContent,
+  DialogActions as MuiDialogActions,
+} from '@material-ui/core/';
+
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = (theme) => ({
   root: {
